@@ -1,0 +1,10 @@
+Ce rost are un fișier de tip interfață (interface) în verificarea funcțională?
+Un fișier interfață (interface) în SystemVerilog este folosit pentru a grupa și abstractiza semnalele dintre testbench și DUT (Design Under Test). Avantajele folosirii unei interfețe în verificare sunt:
+
+Reduce numărul de porturi – în loc să conectezi fiecare semnal individual, DUT primește un singur obiect interface.
+
+Îmbunătățește reutilizarea codului – interfața poate fi folosită în mai multe testbench-uri sau module.
+
+Permite utilizarea de moduri modport – se poate controla accesul la anumite semnale din diferite componente.
+
+Permite adăugarea de logica suplimentară – interfața poate avea tasks și functions pentru stimuli sau captură de semnale.
