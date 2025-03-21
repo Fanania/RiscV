@@ -8,3 +8,6 @@ Reduce numărul de porturi – în loc să conectezi fiecare semnal individual, 
 Permite utilizarea de moduri modport – se poate controla accesul la anumite semnale din diferite componente.
 
 Permite adăugarea de logica suplimentară – interfața poate avea tasks și functions pentru stimuli sau captură de semnale.
+
+Cum se folosește o interfață cu modport?
+modport ajută la restricționarea accesului la semnale din diferite părți ale testbench-ului. De exemplu:
