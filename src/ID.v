@@ -98,7 +98,9 @@ module CU (
 
     // Control reg file write back policy. All instructions which stores data in rd will write in reg file R-Type/J-Type/I-Type (non store).
     // Branch and Store instr do not activate the Write back flag.
-    CU_RegWrite  = ~(S_Instr | B_Instr);
+    CU_RegWrite  = ~(S_Instr | B_Instr)
+                 &  |CmdDec[`CMD_WIDTH-1:0]    // not an NOP
+                 ;
     CU_LoadStoreCtrl[3:0] = {(S_Instr | L_Instr), CmdDec[2:0]};
     // on Result src the rd writing that is decided.
     // 00 take the ALu result (specific to arithmetic instructs.)
@@ -133,6 +135,18 @@ module CU (
                     CU_AluControl[3:0] = `ALU_SUB;
                     CU_UnsignedFlag    = 1'b0;                                         
                   end
+      `CMD_BEQ  : begin
+                    CU_AluControl[3:0] = `ALU_BEQ;
+                    CU_UnsignedFlag    = 1'b0;                                         
+                  end
+      `CMD_BNE  : begin
+                    CU_AluControl[3:0] = `ALU_BNE;
+                    CU_UnsignedFlag    = 1'b0;                                         
+                  end
+      `CMD_BGE  : begin
+                    CU_AluControl[3:0] = `ALU_BGE;
+                    CU_UnsignedFlag    = 1'b0;                                         
+                  end
       `CMD_AND  : begin
                     CU_AluControl[3:0] = `ALU_AND;    // Add define for CU_AluControl
                     CU_UnsignedFlag    = 1'b0;                                         
@@ -143,15 +157,17 @@ module CU (
                   end
       `CMD_XOR  : begin 
                     CU_AluControl[3:0] = `ALU_XOR;    // Add define for CU_AluControl
-                    CU_UnsignedFlag    = 1'b1;                     
+                    CU_UnsignedFlag    = 1'b0;                     
                   end
-      `CMD_SLT  : begin 
-                    CU_AluControl[3:0] = `ALU_SLT;    // Add define for CU_AluControl
-                    CU_UnsignedFlag    = 1'b1;                     
-                  end
-      `CMD_SLTU : begin 
+      `CMD_SLT,
+      `CMD_BLT  : begin 
                     CU_AluControl[3:0] = `ALU_SLT;    // Add define for CU_AluControl
                     CU_UnsignedFlag    = 1'b0;                     
+                  end
+      `CMD_SLTU,
+      `CMD_BLTU : begin 
+                    CU_AluControl[3:0] = `ALU_SLT;    // Add define for CU_AluControl
+                    CU_UnsignedFlag    = 1'b1;                     
                   end
       default   :  {CU_AluControl[3:0],CU_UnsignedFlag} = {`ALU_NOP,1'b0};
     endcase
