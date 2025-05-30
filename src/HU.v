@@ -91,6 +91,7 @@ module HAZARD_UNIT (
   // When a load stall occurs, BOZO and BOZO are asserted to force the Decode and Fetch stage pipeline registers to retain their existing values. 
   // BOZO is also asserted to clear the contents of the Execute stage pipeline register, introducing a bubble.
   always @* begin
+    HU_Stall = 1'b0;
     HU_Stall = ID_ResultSrc[0]         // the lsb is asserted only for load cmds
              & (FwdD2Rs2 | FwdD2Rs1)   // Hazard detected 
              ;
@@ -101,4 +102,3 @@ module HAZARD_UNIT (
                 &  (EXE_RegWrite | MEM_RegWrite)
                 ;
 endmodule
-
