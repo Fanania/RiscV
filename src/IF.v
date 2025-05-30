@@ -6,7 +6,7 @@ module IMEM (
   input         [`PC_WIDTH-1:0] ReadAddrIn   // Wired to PC 
 );
   wire [`ADDR_IDX   -1:0] ReadAddrAlligned;
-  reg  [`INSTR_WIDTH-1:0] InstrMemArr [`INSTR_WIDTH-1:0]; // BOZO add more "memory"
+  reg  [`INSTR_WIDTH-1:0] InstrMemArr [47:0]; // BOZO add more "memory"
 
   // 4B allignment
   assign ReadAddrAlligned[`ADDR_IDX-1:0] = ReadAddrIn[`BYTES_ALLIGN_RANGE];
@@ -16,8 +16,8 @@ module IMEM (
   end
 
   initial begin
-    // Static init of the instructions in the ROM
-    $readmemh("/home/fananiae/disertatie_Anania/src/instr_mem_with_every_cmd.hex", InstrMemArr); 
+    // Static init of the instractions in the ROM
+    $readmemh("/home/fananiae/disertatie_Anania/src/add_sub.hex", InstrMemArr); 
   end
 endmodule
 
@@ -27,7 +27,7 @@ module FETCH_INSTR (
 
   input                         EXE_PcSrc,      // Control Signal which dictate what PC should be used
   input         [`PC_WIDTH-1:0] EXE_PcTgt,      // Branched PC
-  input                         HU_Stall,       // Stop the Fetch stage: no PC update + stall pipeline
+  input                         CountStall,     // Stop the Fetch stage: no PC update + stall pipeline
   input                         clk,
   input                         rst
 );
@@ -38,31 +38,24 @@ module FETCH_INSTR (
   wire [`INSTR_WIDTH-1:0] FetchedInstr;
   reg  ActiveInstr_d0;
   reg  ActiveInstr;
-  reg  CountStarted;
   wire ClkEn;
   //---- Used on Debug
   wire [`PC_WIDTH-1:0] ProgramCounter_4BALign_d1;
   wire [`PC_WIDTH-1:0] ProgramCounter_4BALign_d2;
   wire [`PC_WIDTH-1:0] ProgramCounter_4BALign_d0;
 
-  assign ClkEn    = ~HU_Stall;              // BOZO add more here
+  assign ClkEn    = ~CountStall;              // BOZO add more here
 
   // Program Counter incrementation
   always @* begin
-    PCNext         [`PC_WIDTH-1:0] = ProgramCounter_d1[`PC_WIDTH-1:0];       // Exit of the PC reg used to choose the instruction
-    if (~HU_Stall) begin                                                     // Count if Stall if Hazard Unit don't trigger an Stall
-      if (EXE_PcSrc) begin                                                   // If asserted take the Jump/branch value
-        ProgramCounter_d0[`PC_WIDTH-1:0] = EXE_PcTgt[`PC_WIDTH-1:0];         // Load the calculated Jump/Branch PC
-        CountStarted                     = 1'b1;                             // Flag used to show that the count is started
-      end else begin
-        ProgramCounter_d0[`PC_WIDTH-1:0] = PCNext[`PC_WIDTH-1:0] + `PC_INCR; // Increment by 4
-        CountStarted                     = 1'b1;                             // Flag used to show that the count is started
-      end
+    PCNext            [`PC_WIDTH-1:0] = ProgramCounter_d1[`PC_WIDTH-1:0];    // Exit of the PC reg used to choose the instruction
+    if (EXE_PcSrc) begin                                                     // If asserted take the Jump/branch value
+      ProgramCounter_d0[`PC_WIDTH-1:0] = EXE_PcTgt[`PC_WIDTH-1:0];           // Load the calculated Jump/Branch PC
     end else begin
-      ProgramCounter_d0[`PC_WIDTH-1:0] = PCNext[`PC_WIDTH-1:0];
-      CountStarted                     = 1'b0;                               // The Flag is cleaned when Count_en deasserts & teher is no active stall
+      ProgramCounter_d0[`PC_WIDTH-1:0] = PCNext[`PC_WIDTH-1:0] + `PC_INCR;   // Increment by 4
     end
-    ActiveInstr                       = ActiveInstr_d0 & CountStarted;
+
+    ActiveInstr                       = ActiveInstr_d0;         // Count if Stall if Hazard Unit don't trigger an Stall
 
     IF_Instr[`INSTR_WIDTH-1:0] = FetchedInstr[`INSTR_WIDTH-1:0] 
                                & {`INSTR_WIDTH{ActiveInstr}}
