@@ -53,15 +53,16 @@ module RISC_V (
 
   wire [`FW_WIDTH        -1:0] HU_ForwardA;
   wire [`FW_WIDTH        -1:0] HU_ForwardB;  
+  wire                         HU_Stall;
 
-  assign CountStall = 1'b0; // BOZO fixme
+  assign CountStall = (HU_Stall) ? 1'b1 : 1'b0; // BOZO fixme
 
   FETCH_INSTR Fetch_Stage_1 (
   .IF_Instr                 (IF_Instr  ),
   .IF_Pc                    (IF_Pc     ),
   .EXE_PcSrc                (EXE_PcSrc ),
   .EXE_PcTgt                (EXE_PcTgt ),
-  .HU_Stall                 (HU_Stall  ),
+  .CountStall               (CountStall),
   .clk                      (clk       ),
   .rst                      (rst       )
   );
