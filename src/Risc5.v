@@ -54,8 +54,10 @@ module RISC_V (
   wire [`FW_WIDTH        -1:0] HU_ForwardA;
   wire [`FW_WIDTH        -1:0] HU_ForwardB;  
   wire                         HU_Stall;
+  wire                         FlushD;
 
-  assign CountStall = (HU_Stall) ? 1'b1 : 1'b0; // BOZO fixme
+  assign CountStall = HU_Stall; // BOZO fixme
+  assign FlushD     = HU_Stall | EXE_PcSrc;
 
   FETCH_INSTR Fetch_Stage_1 (
   .IF_Instr                 (IF_Instr  ),
@@ -86,7 +88,7 @@ module RISC_V (
   .ID_Rs2                     (ID_Rs2          ),
   .IF_Instr                   (IF_Instr        ), 
   .IF_Pc                      (IF_Pc           ),
-  .HU_Stall                   (HU_Stall        ),  
+  .FlushD                     (FlushD          ),  
   .WB_WriteEn                 (WB_WriteEn      ), 
   .WB_Result                  (WB_Result       ),
   .Wr_Addr                    (MEM_Rdest       ),
