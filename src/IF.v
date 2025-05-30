@@ -6,7 +6,7 @@ module IMEM (
   input         [`PC_WIDTH-1:0] ReadAddrIn   // Wired to PC 
 );
   wire [`ADDR_IDX   -1:0] ReadAddrAlligned;
-  reg  [`INSTR_WIDTH-1:0] InstrMemArr [`INSTR_DEPTH:0]; // BOZO add more "memory"
+  reg  [`INSTR_WIDTH-1:0] InstrMemArr [`INSTR_DEPTH-1:0]; // BOZO add more "memory"
 
   // 4B allignment
   assign ReadAddrAlligned[`ADDR_IDX-1:0] = ReadAddrIn[`BYTES_ALLIGN_RANGE];
