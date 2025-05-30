@@ -1,3 +1,5 @@
+`include "/home/fananiae/disertatie_Anania/src/defines.v"
+
 module EXECUTE_INSTR (
   output reg [`DATA_WIDTH-1:0] EXE_AluResult,
   output reg                   EXE_Overflow,
@@ -42,7 +44,9 @@ module EXECUTE_INSTR (
   reg                         Overflow;
   reg                         IsAdd; 
   reg                         IsSub; 
+  reg                         IsBge;
   reg                         ZeroFlag;
+  reg                         BranchOk;
   reg  [`DATA_WIDTH     -1:0] AluResult;
   wire                        ClkEn;
 
@@ -50,8 +54,12 @@ module EXECUTE_INSTR (
   
   always @* begin
     IsAdd = ID_AluControl[3:0] == `ALU_ADD;
-    IsSub = ID_AluControl[3:0] == `ALU_SUB;
-  
+    IsSub = (ID_AluControl[3:0] == `ALU_SUB)
+          | (ID_AluControl[3:0] == `ALU_BEQ)
+          | (ID_AluControl[3:0] == `ALU_BNE)
+          | (ID_AluControl[3:0] == `ALU_BGE)
+          ;
+
     case (HU_ForwardA[`FW_WIDTH-1:0])
       `NORMAL  : SrcA[`DATA_WIDTH-1:0] = ID_Rd1       [`DATA_WIDTH-1:0];
       `WB      : SrcA[`DATA_WIDTH-1:0] = WB_Result    [`DATA_WIDTH-1:0];
@@ -90,8 +98,10 @@ module EXECUTE_INSTR (
     Result[`ALU_SLL][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] << SrcB[`DATA_WIDTH-1:0];
     Result[`ALU_SRL][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] >> SrcB[`DATA_WIDTH-1:0];  
     Result[`ALU_SRA][`DATA_WIDTH-1:0] = (SrcA[`DATA_WIDTH-1:0] >> SrcB[`IMM_SHAMT_WIDTH-1:0]) // could be combine with the above one
-                                          | ({`DATA_WIDTH{SrcA[31]}} >> SrcB[`IMM_SHAMT_WIDTH-1:0])
-                                          ;
+                                      | ({`DATA_WIDTH{SrcA[31]}} >> SrcB[`IMM_SHAMT_WIDTH-1:0])
+                                      ;
+    Result[`ALU_SLT][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] < SrcB[`DATA_WIDTH-1:0];
+
     Result[`ALU_NOP][`DATA_WIDTH-1:0] =  `DATA_WIDTH'h0;
   
     AluResult[`DATA_WIDTH-1:0] = {`DATA_WIDTH{IsAdd}}                            & Result[`ALU_ADD][`DATA_WIDTH-1:0]
@@ -102,15 +112,19 @@ module EXECUTE_INSTR (
                                | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SLL)}} & Result[`ALU_SLL][`DATA_WIDTH-1:0]
                                | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SRL)}} & Result[`ALU_SRL][`DATA_WIDTH-1:0]
                                | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SRA)}} & Result[`ALU_SRA][`DATA_WIDTH-1:0]
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SLT)}} & Result[`ALU_SLT][`DATA_WIDTH-1:0]
                                ;
     // Calculate Overflow. The only commands which can trigger Overflow it will be add and sub
-    Overflow = (((SrcA[31] ^ SrcB[31]) & ~AluResult[31])
-               | ( SrcA[31] & SrcB[31]  & ~AluResult[31]))
-             & ( IsAdd
-               | IsSub 
-               )
+    Overflow = (IsAdd & ~(SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31])) 
+             | (IsSub &  (SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]))
              ;
+
     ZeroFlag = ~|AluResult[`DATA_WIDTH-1:0];
+    BranchOk =  (ID_AluControl[3:0] == `ALU_BEQ) &  ZeroFlag      // Expect to have zero if rs1==rs2
+             |  (ID_AluControl[3:0] == `ALU_BNE) & ~ZeroFlag      // Non zero 
+             |  (ID_AluControl[3:0] == `ALU_SLT) &  AluResult[0]  // 1 on lsb. BLT is processed as SLT
+             |  (ID_AluControl[3:0] == `ALU_BGE) & ~Overflow      // if bge and not overflow taht means that the sub instr had an positive output
+             ;
   end
 
   always @(posedge clk) begin
@@ -153,6 +167,6 @@ module EXECUTE_INSTR (
     end
   end
 
-assign EXE_PcSrc = ID_Jump | (ID_Branch & ZeroFlag);
+assign EXE_PcSrc = ID_Jump | (ID_Branch & BranchOk);
 assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];
 endmodule
