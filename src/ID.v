@@ -196,7 +196,7 @@ module DECODE_INSTR (
 
   input     [`INSTR_WIDTH-1:0] IF_Instr,                     // switched out to in
   input        [`PC_WIDTH-1:0] IF_Pc,
-  input                        HU_Stall,    
+  input                        FlushD,    
   input                        WB_WriteEn,                   // BOZO wire this up and add the originating stage in front of it
   input      [`DATA_WIDTH-1:0] WB_Result,
   input        [`ADDR_IDX-1:0] Wr_Addr,
@@ -325,7 +325,7 @@ module DECODE_INSTR (
   end
 
   always @(posedge clk) begin
-    if (rst | HU_Stall) begin
+    if (rst | FlushD) begin
       RegOut1_d1     [`DATA_WIDTH-1:0] <= `DATA_WIDTH'h0;
       RegOut2_d1     [`DATA_WIDTH-1:0] <= `DATA_WIDTH'h0;
       ID_Pc            [`PC_WIDTH-1:0] <= `PC_WIDTH'h0;
