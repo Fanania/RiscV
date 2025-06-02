@@ -15,7 +15,7 @@ module CU (
   output reg                    CU_AluSrc,            // To Sign Extender logic
   output reg              [3:0] CU_AluControl,        // To ALU module
   output reg              [3:0] CU_LoadStoreCtrl,     // To LoadStore module
-  output reg                    CU_UnsignedFlag,
+  output reg                    CU_UnsignedFlag,      // Note: There are no ADDIU/SUBIU in RISCV
   output reg                    CU_RegWrite,          // Floped with the instr processing and then used to enable Reg File writes
   output reg                    CU_MemWriteEn,        // Used as write enable in data memory 
   output reg              [1:0] CU_ResultSrc,         // Selector on wb mux
@@ -49,7 +49,7 @@ module CU (
     J_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `J_INSTR);
     L_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `L_INSTR);    
 
-    case (InstrIn[`FUNCT3_RANGE])
+    casex (InstrIn[`FUNCT3_RANGE])
       // Use Control Fields to decode funct7,funct3,opcode
       // Add ovl here. Default operation is NOP
       3'b000  : CmdDec[`CMD_WIDTH-1:0] = `CMD_ADD  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}} // Same Funct3 encoding across R and I intr types
@@ -107,7 +107,7 @@ module CU (
     // 01 take the memory output 
     // 10 take the PC incremented value
     // 11 Reserved
-    CU_ResultSrc [1:0] = {J_Instr,L_Instr}; //00 when is non L/J value and just takes the 01/10 values based on the L/J opcodes
+    CU_ResultSrc [1:0] = {J_Instr,L_Instr}; //00 when is non J/L value and just takes the 01/10 values based on the L/J opcodes
     // Excpet to write in data memory only for store commands
     CU_MemWriteEn = S_Instr;
     CU_Jump       = J_Instr;
@@ -115,7 +115,7 @@ module CU (
   end
   // Most decoded comamnds will need simple ALU op.
   always @* begin
-    case (CmdDec[`CMD_WIDTH-1:0])
+    casex (CmdDec[`CMD_WIDTH-1:0])
       `CMD_ADD,
       `CMD_LW,
       `CMD_SW,
@@ -196,7 +196,7 @@ module DECODE_INSTR (
 
   input     [`INSTR_WIDTH-1:0] IF_Instr,                     // switched out to in
   input        [`PC_WIDTH-1:0] IF_Pc,
-  input                        FlushD,    
+  input                        Flush,    
   input                        WB_WriteEn,                   // BOZO wire this up and add the originating stage in front of it
   input      [`DATA_WIDTH-1:0] WB_Result,
   input        [`ADDR_IDX-1:0] Wr_Addr,
@@ -325,7 +325,7 @@ module DECODE_INSTR (
   end
 
   always @(posedge clk) begin
-    if (rst | FlushD) begin
+    if (rst | Flush) begin
       RegOut1_d1     [`DATA_WIDTH-1:0] <= `DATA_WIDTH'h0;
       RegOut2_d1     [`DATA_WIDTH-1:0] <= `DATA_WIDTH'h0;
       ID_Pc            [`PC_WIDTH-1:0] <= `PC_WIDTH'h0;
