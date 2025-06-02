@@ -61,7 +61,6 @@ module HAZARD_UNIT (
              & ~|IF_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
              &   ID_RegWrite                                         // Forward only if the data is suppose to be written in reg file
              ;
-    // BIG BOZO !!!!!!!!!!!!!!!!!!!!         
     FwdD2Rs1 =  (IF_Rs1[`ADDR_IDX-1:0] == ID_Rdest[`ADDR_IDX-1:0])   // Matchig reg addr
              & ~|IF_Rs1[`ADDR_IDX-1:0]                               // Non 0 value
              &   ID_RegWrite                                         // Forward only if the data is suppose to be written in reg file
