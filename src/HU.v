@@ -41,28 +41,29 @@ module HAZARD_UNIT (
   // ..then the Memory stage should have priority because it contains the more recently executed instr.
 
     FwdM2Rs2 =  (ID_Rs2[`ADDR_IDX-1:0] == MEM_Rdest[`ADDR_IDX-1:0])  // Matchig reg addr
-             & ~&ID_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
+             & ~|ID_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
              &   MEM_RegWrite                                        // Forward only if the data is suppose to be written in reg file
              ;
     FwdM2Rs1 =  (ID_Rs1[`ADDR_IDX-1:0] == MEM_Rdest[`ADDR_IDX-1:0])  // Matchig reg addr
-             & ~&ID_Rs1[`ADDR_IDX-1:0]                               // Non 0 value
+             & ~|ID_Rs1[`ADDR_IDX-1:0]                               // Non 0 value
              &   MEM_RegWrite                                        // Forward only if the data is suppose to be written in reg file             
              ;
     FwdE2Rs2 =  (ID_Rs2[`ADDR_IDX-1:0] == EXE_Rdest[`ADDR_IDX-1:0])  // Matchig reg addr
-             & ~&ID_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
+             & ~|ID_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
              &   EXE_RegWrite                                        // Forward only if the data is suppose to be written in reg file
              ;
     FwdE2Rs1 =  (ID_Rs1[`ADDR_IDX-1:0] == EXE_Rdest[`ADDR_IDX-1:0])  // Matchig reg addr
-             & ~&ID_Rs1[`ADDR_IDX-1:0]                               // Non 0 value
+             & ~|ID_Rs1[`ADDR_IDX-1:0]                               // Non 0 value
              &   EXE_RegWrite                                        // Forward only if the data is suppose to be written in reg file               
              ;
     // For Stall logic
     FwdD2Rs2 =  (IF_Rs2[`ADDR_IDX-1:0] == ID_Rdest[`ADDR_IDX-1:0])   // Matchig reg addr
-             & ~&IF_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
+             & ~|IF_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
              &   ID_RegWrite                                         // Forward only if the data is suppose to be written in reg file
              ;
-    FwdD2Rs1 =  (IF_Rs2[`ADDR_IDX-1:0] == ID_Rdest[`ADDR_IDX-1:0])   // Matchig reg addr
-             & ~&IF_Rs2[`ADDR_IDX-1:0]                               // Non 0 value
+    // BIG BOZO !!!!!!!!!!!!!!!!!!!!         
+    FwdD2Rs1 =  (IF_Rs1[`ADDR_IDX-1:0] == ID_Rdest[`ADDR_IDX-1:0])   // Matchig reg addr
+             & ~|IF_Rs1[`ADDR_IDX-1:0]                               // Non 0 value
              &   ID_RegWrite                                         // Forward only if the data is suppose to be written in reg file
              ;
 
@@ -91,7 +92,6 @@ module HAZARD_UNIT (
   // When a load stall occurs, BOZO and BOZO are asserted to force the Decode and Fetch stage pipeline registers to retain their existing values. 
   // BOZO is also asserted to clear the contents of the Execute stage pipeline register, introducing a bubble.
   always @* begin
-    HU_Stall = 1'b0;
     HU_Stall = ID_ResultSrc[0]         // the lsb is asserted only for load cmds
              & (FwdD2Rs2 | FwdD2Rs1)   // Hazard detected 
              ;
