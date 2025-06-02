@@ -54,10 +54,10 @@ module RISC_V (
   wire [`FW_WIDTH        -1:0] HU_ForwardA;
   wire [`FW_WIDTH        -1:0] HU_ForwardB;  
   wire                         HU_Stall;
-  wire                         FlushD;
+  wire                         Flush;
 
   assign CountStall = HU_Stall; // BOZO fixme
-  assign FlushD     = HU_Stall | EXE_PcSrc;
+  assign Flush      = HU_Stall | EXE_PcSrc;
 
   FETCH_INSTR Fetch_Stage_1 (
   .IF_Instr                 (IF_Instr  ),
@@ -65,6 +65,7 @@ module RISC_V (
   .EXE_PcSrc                (EXE_PcSrc ),
   .EXE_PcTgt                (EXE_PcTgt ),
   .CountStall               (CountStall),
+  .Flush                    (Flush     ),      
   .clk                      (clk       ),
   .rst                      (rst       )
   );
@@ -88,7 +89,7 @@ module RISC_V (
   .ID_Rs2                     (ID_Rs2          ),
   .IF_Instr                   (IF_Instr        ), 
   .IF_Pc                      (IF_Pc           ),
-  .FlushD                     (FlushD          ),  
+  .Flush                      (Flush           ),  
   .WB_WriteEn                 (WB_WriteEn      ), 
   .WB_Result                  (WB_Result       ),
   .Wr_Addr                    (MEM_Rdest       ),
@@ -174,7 +175,7 @@ module RISC_V (
  // Write back doesn't need an module
  assign WB_WriteEn = MEM_RegWrite;
  assign WB_Result[`DATA_WIDTH-1:0] = (MEM_ResultSrc[1:0] == `WB_ALU) ? MEM_ALUResult[`DATA_WIDTH-1:0]
-                                                                     : (MEM_ResultSrc[1:0] == `WB_ROM) ? MEM_ReadData[`DATA_WIDTH-1:0]
+                                                                     : (MEM_ResultSrc[1:0] == `WB_RAM) ? MEM_ReadData[`DATA_WIDTH-1:0]
                                                                                                        : (MEM_ResultSrc[1:0] == `WB_PC) ? MEM_Pc[`DATA_WIDTH-1:0]
                                                                                                                                         : `DATA_WIDTH'h0
                                                                                                                                         ;
