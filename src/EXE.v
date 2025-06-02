@@ -63,7 +63,8 @@ module EXECUTE_INSTR (
     case (HU_ForwardA[`FW_WIDTH-1:0])
       `NORMAL  : SrcA[`DATA_WIDTH-1:0] = ID_Rd1       [`DATA_WIDTH-1:0];
       `WB      : SrcA[`DATA_WIDTH-1:0] = WB_Result    [`DATA_WIDTH-1:0];
-      `MEM     : SrcA[`DATA_WIDTH-1:0] = MEM_ALUResult[`DATA_WIDTH-1:0];
+    //  `MEM     : SrcA[`DATA_WIDTH-1:0] = MEM_ALUResult[`DATA_WIDTH-1:0];       // should use the EXE output instead
+      `MEM     : SrcA[`DATA_WIDTH-1:0] = EXE_AluResult[`DATA_WIDTH-1:0];       // should use the EXE output instead
       default  : SrcA[`DATA_WIDTH-1:0] = ID_Rd1       [`DATA_WIDTH-1:0];       // Not sure if okay to use this one as default
     endcase
 
@@ -77,7 +78,8 @@ module EXECUTE_INSTR (
       case (HU_ForwardB[`FW_WIDTH-1:0])
         `NORMAL  : SrcRawB[`DATA_WIDTH-1:0] = ID_Rd2       [`DATA_WIDTH-1:0];
         `WB      : SrcRawB[`DATA_WIDTH-1:0] = WB_Result    [`DATA_WIDTH-1:0];
-        `MEM     : SrcRawB[`DATA_WIDTH-1:0] = MEM_ALUResult[`DATA_WIDTH-1:0];
+    //    `MEM     : SrcRawB[`DATA_WIDTH-1:0] = MEM_ALUResult[`DATA_WIDTH-1:0];
+        `MEM     : SrcRawB[`DATA_WIDTH-1:0] = EXE_AluResult[`DATA_WIDTH-1:0];       // should use the EXE output instead
         default  : SrcRawB[`DATA_WIDTH-1:0] = ID_Rd2       [`DATA_WIDTH-1:0];  // Not sure if okay to use this one as default
       endcase
     end
@@ -167,6 +169,6 @@ module EXECUTE_INSTR (
     end
   end
 
-assign EXE_PcSrc = ID_Jump | (ID_Branch & BranchOk);
-assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];
+  assign EXE_PcSrc = ID_Jump | (ID_Branch & BranchOk);
+  assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];
 endmodule
