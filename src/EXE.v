@@ -27,7 +27,6 @@ module EXECUTE_INSTR (
   input                        ID_Jump,
   input                        ID_Branch,
   input                  [3:0] ID_LoadStoreCtrl,
-  input      [`DATA_WIDTH-1:0] MEM_ALUResult,                 // Used as alu input if there is mem.rd == exe.rs situation 
   input      [`DATA_WIDTH-1:0] WB_Result,                     // Used as alu input if there is wb.rd == exe.rs situation 
   input        [`ADDR_IDX-1:0] ID_Rdest,                      // here we are writing the result
   input                  [1:0] ID_ResultSrc,                  // Control the WB mux
@@ -39,6 +38,7 @@ module EXECUTE_INSTR (
   
   reg  [`DATA_WIDTH     -1:0] SrcA;
   reg  [`DATA_WIDTH     -1:0] SrcB;
+  reg  [`DATA_WIDTH     -1:0] SrcRawA;
   reg  [`DATA_WIDTH     -1:0] SrcRawB;  // Should contain the Imm value or Reg1 value based on the Instruction type
   reg  [`DATA_WIDTH     -1:0] Result[15:0];
   reg                         Overflow;
@@ -49,6 +49,7 @@ module EXECUTE_INSTR (
   reg                         BranchOk;
   reg  [`DATA_WIDTH     -1:0] AluResult;
   wire                        ClkEn;
+  reg  [1:0]                  Sign;
 
   assign ClkEn                    = 1'b1;   // Set it unconditionally to 1 for now
   
@@ -60,10 +61,11 @@ module EXECUTE_INSTR (
           | (ID_AluControl[3:0] == `ALU_BGE)
           ;
 
+    // Stage 1: SrcA is normally wired to Re0 output but in special cases can have different values like:
+    // Stage 2: if there is a data hazard use the mem/eb data instead of exe data    
     case (HU_ForwardA[`FW_WIDTH-1:0])
       `NORMAL  : SrcA[`DATA_WIDTH-1:0] = ID_Rd1       [`DATA_WIDTH-1:0];
       `WB      : SrcA[`DATA_WIDTH-1:0] = WB_Result    [`DATA_WIDTH-1:0];
-    //  `MEM     : SrcA[`DATA_WIDTH-1:0] = MEM_ALUResult[`DATA_WIDTH-1:0];       // should use the EXE output instead
       `MEM     : SrcA[`DATA_WIDTH-1:0] = EXE_AluResult[`DATA_WIDTH-1:0];       // should use the EXE output instead
       default  : SrcA[`DATA_WIDTH-1:0] = ID_Rd1       [`DATA_WIDTH-1:0];       // Not sure if okay to use this one as default
     endcase
@@ -78,8 +80,7 @@ module EXECUTE_INSTR (
       case (HU_ForwardB[`FW_WIDTH-1:0])
         `NORMAL  : SrcRawB[`DATA_WIDTH-1:0] = ID_Rd2       [`DATA_WIDTH-1:0];
         `WB      : SrcRawB[`DATA_WIDTH-1:0] = WB_Result    [`DATA_WIDTH-1:0];
-    //    `MEM     : SrcRawB[`DATA_WIDTH-1:0] = MEM_ALUResult[`DATA_WIDTH-1:0];
-        `MEM     : SrcRawB[`DATA_WIDTH-1:0] = EXE_AluResult[`DATA_WIDTH-1:0];       // should use the EXE output instead
+        `MEM     : SrcRawB[`DATA_WIDTH-1:0] = EXE_AluResult[`DATA_WIDTH-1:0];  // should use the EXE output instead
         default  : SrcRawB[`DATA_WIDTH-1:0] = ID_Rd2       [`DATA_WIDTH-1:0];  // Not sure if okay to use this one as default
       endcase
     end
@@ -88,33 +89,22 @@ module EXECUTE_INSTR (
     SrcB   [`DATA_WIDTH-1:0] = (IsSub) ? ~SrcRawB[`DATA_WIDTH-1:0] + `DATA_WIDTH'h1  // use the 2's complement 
                                        :  SrcRawB[`DATA_WIDTH-1:0]
                                        ;
-    // Stage 1: SrcA is normally wired to Re0 output but in special cases can have different values like:
-    // SLL and SRL are basically same shifting operation. the operands need to be switched.
-  
-    // Trying not to use any combinational priority:
-    Result[`ALU_ADD][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] + SrcB[`DATA_WIDTH-1:0];
-    Result[`ALU_AND][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] & SrcB[`DATA_WIDTH-1:0];
-    Result[`ALU_OR ][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] | SrcB[`DATA_WIDTH-1:0];
-    Result[`ALU_XOR][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] ^ SrcB[`DATA_WIDTH-1:0];
-  //  Result[`ALU_SUB][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] + SrcB[`DATA_WIDTH-1:0]; // BOZO look above
-    Result[`ALU_SLL][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] << SrcB[`DATA_WIDTH-1:0];
-    Result[`ALU_SRL][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] >> SrcB[`DATA_WIDTH-1:0];  
-    Result[`ALU_SRA][`DATA_WIDTH-1:0] = (SrcA[`DATA_WIDTH-1:0] >> SrcB[`IMM_SHAMT_WIDTH-1:0]) // could be combine with the above one
-                                      | ({`DATA_WIDTH{SrcA[31]}} >> SrcB[`IMM_SHAMT_WIDTH-1:0])
-                                      ;
-    Result[`ALU_SLT][`DATA_WIDTH-1:0] =  SrcA[`DATA_WIDTH-1:0] < SrcB[`DATA_WIDTH-1:0];
+    Sign[1:0] = {2{~ID_UnsignedFlag}}        // when there is no unsigned flag 
+              & {SrcA[31],SrcRawB[31]}       // ..use the msb to dictate the sign
+              ;
 
-    Result[`ALU_NOP][`DATA_WIDTH-1:0] =  `DATA_WIDTH'h0;
-  
-    AluResult[`DATA_WIDTH-1:0] = {`DATA_WIDTH{IsAdd}}                            & Result[`ALU_ADD][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{IsSub}}                            & Result[`ALU_ADD][`DATA_WIDTH-1:0]  
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_AND)}} & Result[`ALU_AND][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_OR )}} & Result[`ALU_OR ][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_XOR)}} & Result[`ALU_XOR][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SLL)}} & Result[`ALU_SLL][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SRL)}} & Result[`ALU_SRL][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SRA)}} & Result[`ALU_SRA][`DATA_WIDTH-1:0]
-                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SLT)}} & Result[`ALU_SLT][`DATA_WIDTH-1:0]
+    // SLL and SRL are basically same shifting operation. the operands need to be switched.
+    
+    AluResult[`DATA_WIDTH-1:0] = {`DATA_WIDTH{IsAdd | IsSub}}                    & (SrcA[`DATA_WIDTH-1:0] + SrcB[`DATA_WIDTH-1:0])
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_AND)}} & (SrcA[`DATA_WIDTH-1:0] & SrcB[`DATA_WIDTH-1:0])
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_OR )}} & (SrcA[`DATA_WIDTH-1:0] | SrcB[`DATA_WIDTH-1:0])
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_XOR)}} & (SrcA[`DATA_WIDTH-1:0] ^ SrcB[`DATA_WIDTH-1:0])
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SLL)}} & (SrcA[`DATA_WIDTH-1:0] << SrcB[`DATA_WIDTH-1:0]) 
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SRL)}} & (SrcA[`DATA_WIDTH-1:0] >> SrcB[`DATA_WIDTH-1:0])
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SRA)}} & ((SrcA[`DATA_WIDTH-1:0] >> SrcB[`DATA_WIDTH-1:0])
+                                                                                 | ({`DATA_WIDTH{SrcA[31]}} >> SrcB[`IMM_SHAMT_WIDTH-1:0]))
+                               | {`DATA_WIDTH{(ID_AluControl[3:0] == `ALU_SLT)}} & ((SrcA[`DATA_WIDTH-1:0] < SrcB[`DATA_WIDTH-1:0])               // if the slt 
+                                                                                 ^ (|Sign[1:0]))                                                  // Just rvert the slt result whenever there is a negative number in A or B
                                ;
     // Calculate Overflow. The only commands which can trigger Overflow it will be add and sub
     Overflow = (IsAdd & ~(SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31])) 
@@ -169,6 +159,6 @@ module EXECUTE_INSTR (
     end
   end
 
-  assign EXE_PcSrc = ID_Jump | (ID_Branch & BranchOk);
-  assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];
+assign EXE_PcSrc = ID_Jump | (ID_Branch & BranchOk);
+assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];
 endmodule
