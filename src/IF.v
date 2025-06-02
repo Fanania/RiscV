@@ -28,6 +28,7 @@ module FETCH_INSTR (
   input                         EXE_PcSrc,      // Control Signal which dictate what PC should be used
   input         [`PC_WIDTH-1:0] EXE_PcTgt,      // Branched PC
   input                         CountStall,     // Stop the Fetch stage: no PC update + stall pipeline
+  input                         Flush,
   input                         clk,
   input                         rst
 );
@@ -55,7 +56,7 @@ module FETCH_INSTR (
       ProgramCounter_d0[`PC_WIDTH-1:0] = PCNext[`PC_WIDTH-1:0] + `PC_INCR;   // Increment by 4
     end
 
-    ActiveInstr                       = ActiveInstr_d0;         // Count if Stall if Hazard Unit don't trigger an Stall
+    ActiveInstr                       = ActiveInstr_d0 & ~Flush;             // Count if Stall if Hazard Unit don't trigger an Stall
 
     IF_Instr[`INSTR_WIDTH-1:0] = FetchedInstr[`INSTR_WIDTH-1:0] 
                                & {`INSTR_WIDTH{ActiveInstr}}
@@ -67,24 +68,32 @@ module FETCH_INSTR (
   .clk              (clk),
   .ReadAddrIn       (PCNext)                                                 // BOZO check if this stage is okay to be used in instruction reading
   );
-  
   always @(posedge clk) begin
     if (rst) begin
-      ProgramCounter_d1[`PC_WIDTH   -1:0] <= `PC_WIDTH'h0;
-      ProgramCounter_d2[`PC_WIDTH   -1:0] <= `PC_WIDTH'h0;      
+      ProgramCounter_d1[`PC_WIDTH   -1:0] <= `PC_WIDTH'h0;    
+    end else if (ClkEn) begin
+      ProgramCounter_d1[`PC_WIDTH   -1:0] <= ProgramCounter_d0[`PC_WIDTH   -1:0];     
+    end else begin
+      ProgramCounter_d1[`PC_WIDTH   -1:0] <= ProgramCounter_d1[`PC_WIDTH   -1:0];
+    end
+  end
+
+  always @(posedge clk) begin
+    if (rst | Flush) begin
+      ProgramCounter_d2[`PC_WIDTH   -1:0] <= `PC_WIDTH'h0;            
       ActiveInstr_d0                      <= 1'b0;
     end else if (ClkEn) begin
-      ProgramCounter_d1[`PC_WIDTH   -1:0] <= ProgramCounter_d0[`PC_WIDTH   -1:0]; 
       ProgramCounter_d2[`PC_WIDTH   -1:0] <= ProgramCounter_d1[`PC_WIDTH   -1:0];       
       ActiveInstr_d0                      <= 1'b1;
     end else begin
-      ProgramCounter_d1[`PC_WIDTH   -1:0] <= ProgramCounter_d1[`PC_WIDTH   -1:0];
       ProgramCounter_d2[`PC_WIDTH   -1:0] <= ProgramCounter_d2[`PC_WIDTH   -1:0];             
       ActiveInstr_d0                      <= 1'b0;            
     end
   end
 
-  assign IF_Pc   [`PC_WIDTH   -1:0] = ProgramCounter_d2[`PC_WIDTH   -1:0];
+  assign IF_Pc   [`PC_WIDTH   -1:0] = ProgramCounter_d2[`PC_WIDTH   -1:0]
+                                    & {`PC_WIDTH{~Flush}}
+                                    ;
 
   //---- Used on Debug
   assign ProgramCounter_4BALign_d0[`PC_WIDTH-4:0] = {ProgramCounter_d0[`PC_WIDTH-1:7],ProgramCounter_d0[`BYTES_ALLIGN_RANGE]};
