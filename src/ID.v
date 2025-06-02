@@ -11,7 +11,7 @@ J-type  |   |        Imm[10:1]     |  |     Imm[19:12]    |      rd    | opcode 
 `include "/home/fananiae/disertatie_Anania/src/defines.v"
 
 module CU (
-  output        [`CU_WIDTH-1:0] CU_Cmd,
+  output reg                    CU_ImmShft,           // Imm Shamt
   output reg                    CU_AluSrc,            // To Sign Extender logic
   output reg              [3:0] CU_AluControl,        // To ALU module
   output reg              [3:0] CU_LoadStoreCtrl,     // To LoadStore module
@@ -92,7 +92,13 @@ module CU (
     end else begin
       Cmd[`CMD_WIDTH-1:0] = CmdDec[`CMD_WIDTH-1:0];
     end
-
+    // For these shift instructions, imm4:0 is the 5-bit unsigned shift amount; 
+    // The upper seven imm bits are 0 for srli and slli, but srai puts a 1 in imm10 (i.e., instruction bit 30)
+    CU_ImmShft = ((CmdDec[`CMD_WIDTH-1:0] == `CMD_SLL)
+               |  (CmdDec[`CMD_WIDTH-1:0] == `CMD_SRA) 
+               |  (CmdDec[`CMD_WIDTH-1:0] == `CMD_SRL))
+               &   I_Instr                               // shift commands
+               ;
     // Should control de SrcB entry in ALU. If 0 expect RD2 from reg file otherwise go with Imm.
     CU_AluSrc = I_Instr | U_Instr | L_Instr | S_Instr;    // Instr types which expects Imm
 
@@ -133,7 +139,19 @@ module CU (
                   end
       `CMD_SUB  : begin
                     CU_AluControl[3:0] = `ALU_SUB;
-                    CU_UnsignedFlag    = 1'b0;                                         
+                    CU_UnsignedFlag    = 1'b0;
+                  end
+      `CMD_SRA  : begin
+                    CU_AluControl[3:0] = `ALU_SRA;
+                    CU_UnsignedFlag    = 1'b0;
+                  end
+      `CMD_SRL  : begin
+                    CU_AluControl[3:0] = `ALU_SRL;
+                    CU_UnsignedFlag    = 1'b0;
+                  end
+      `CMD_SLL  : begin
+                    CU_AluControl[3:0] = `ALU_SLL;
+                    CU_UnsignedFlag    = 1'b0;
                   end
       `CMD_BEQ  : begin
                     CU_AluControl[3:0] = `ALU_BEQ;
@@ -146,6 +164,10 @@ module CU (
       `CMD_BGE  : begin
                     CU_AluControl[3:0] = `ALU_BGE;
                     CU_UnsignedFlag    = 1'b0;                                         
+                  end
+      `CMD_BGEU : begin
+                    CU_AluControl[3:0] = `ALU_BGE;
+                    CU_UnsignedFlag    = 1'b1;                                         
                   end
       `CMD_AND  : begin
                     CU_AluControl[3:0] = `ALU_AND;    // Add define for CU_AluControl
@@ -173,7 +195,6 @@ module CU (
     endcase
   end
 
-  assign CU_Cmd[`CMD_WIDTH-1:0] = Cmd[`CMD_WIDTH-1:0];
 endmodule
 
 module DECODE_INSTR (
@@ -210,7 +231,7 @@ module DECODE_INSTR (
   wire      [`DATA_WIDTH-1:0] RegOut1_d0;
   wire      [`DATA_WIDTH-1:0] RegOut2_d0;
   wire                        ALUSrcE_d0;
-  wire       [`CMD_WIDTH-1:0] Cmd_d0;
+  wire                        CU_ImmShft;
   wire                        CU_Jump;
   wire                        CU_Branch;
   wire                  [3:0] CU_AluControl;
@@ -269,7 +290,7 @@ module DECODE_INSTR (
   end
 
   CU ControlUnit_inst (
-  .CU_Cmd             (Cmd_d0[`CMD_WIDTH-1:0]),
+  .CU_ImmShft         (CU_ImmShft),
   .CU_AluSrc          (CU_AluSrc),
   .CU_AluControl      (CU_AluControl[3:0]),
   .CU_ResultSrc       (CU_ResultSrc[1:0]),
@@ -289,21 +310,14 @@ module DECODE_INSTR (
   always @* begin
     // bit 31 represents the sign bit and [30:20] would be the actual Imm value
     SignImm  = IF_Instr[`IMM_MSB];                  // Imm 31st bit is consider the sign bit 
-    // For these shift instructions, imm4:0 is the 5-bit unsigned shift amount; 
-    // The upper seven imm bits are 0 for srli and slli, but srai puts a 1 in imm10 (i.e., instruction bit 30)
-    Imm_shft = ((Cmd_d0[`CMD_WIDTH-1:0] == `CMD_SLL)
-             |  (Cmd_d0[`CMD_WIDTH-1:0] == `CMD_SRA) 
-             |  (Cmd_d0[`CMD_WIDTH-1:0] == `CMD_SRL))
-             &  (IF_Instr[`OPCODE_RANGE] == `OP_ARITM_IMM)  // shift commands
-             ;
     // LUI (Load Upper Immediate) used to construct 32 bits constants :
     // - U-type.
     // - Uses first 20 bits for  Imm (msb).
     // - last 12 bits are setted to 0.
     // RO note: "Pare ca pentru U sau UJ shifteaza IMM la stanga cu 12 pozitii nu s sigur"
-    I_Type_Imm[`DATA_WIDTH-1:0] = (Imm_shft) ? {{(`INSTR_WIDTH-`IMM_SHAMT_WIDTH){1'b0}},IF_Instr[`IMM_SHAMT_RANGE]}     // slli/srli
-                                             : {{20{SignImm}},IF_Instr[`IMM_RANGE]}                                     // Valid for classic Imm instructions except immediate shift instructions (slli, srli, and srai) 
-                                             ;
+    I_Type_Imm[`DATA_WIDTH-1:0] = (CU_ImmShft) ? {{(`INSTR_WIDTH-`IMM_SHAMT_WIDTH){1'b0}},IF_Instr[`IMM_SHAMT_RANGE]}     // slli/srli
+                                               : {{20{SignImm}},IF_Instr[`IMM_RANGE]}                                     // Valid for classic Imm instructions except immediate shift instructions (slli, srli, and srai) 
+                                               ;
     U_Type_Imm[`DATA_WIDTH-1:0] = {IF_Instr[`UIMM_RANGE],12'b0};                                                        // Load upper 20 bits in RD. fill less 12 bits with 0
     // Store instructions use S-type and branch instructions use B-type.
     // S- and B-type formats differ only in how the immediate is encoded.
