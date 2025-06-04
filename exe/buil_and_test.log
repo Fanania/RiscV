@@ -1,0 +1,288 @@
+Command: /home/fananiae/disertatie_Anania/exe/./simv +vcs+vcdpluson +testname=general -l build_and_test.log
+Chronologic VCS simulator copyright 1991-2023
+Contains Synopsys proprietary information.
+Compiler version U-2023.03-SP2-9; Runtime version U-2023.03-SP2-9;  Jun  4 11:39 2025
+Seed = 992600595
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00000, opcode = 0000011, funct3 = 101, generated instruction = 00000000000000000101000000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00000, instr = 00005003
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00001, opcode = 0000011, funct3 = 011, generated instruction = 00000000001000000011000010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00001, instr = 00203083
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00002, opcode = 0000011, funct3 = 101, generated instruction = 00000000101000000101000100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00002, instr = 00a05103
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00003, opcode = 0000011, funct3 = 100, generated instruction = 00000000001100000100000110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00003, instr = 00304183
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00004, opcode = 0000011, funct3 = 100, generated instruction = 00000000010000000100001000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00004, instr = 00404203
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00005, opcode = 0000011, funct3 = 101, generated instruction = 00000000010100000101001010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00005, instr = 00505283
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00006, opcode = 0000011, funct3 = 001, generated instruction = 00000000000000000001001100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00006, instr = 00001303
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00007, opcode = 0000011, funct3 = 101, generated instruction = 00000000000000000101001110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00007, instr = 00005383
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00008, opcode = 0000011, funct3 = 001, generated instruction = 00000000000000000001010000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00008, instr = 00001403
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00009, opcode = 0000011, funct3 = 001, generated instruction = 00000010110100000001010010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00009, instr = 02d01483
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00010, opcode = 0000011, funct3 = 101, generated instruction = 00000001111000000101010100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00010, instr = 01e05503
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00011, opcode = 0000011, funct3 = 000, generated instruction = 00000010110000000000010110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00011, instr = 02c00583
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00012, opcode = 0000011, funct3 = 010, generated instruction = 00000011110000000010011000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00012, instr = 03c02603
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00013, opcode = 0000011, funct3 = 010, generated instruction = 00000001101000000010011010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00013, instr = 01a02683
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00014, opcode = 0000011, funct3 = 011, generated instruction = 00000100011000000011011100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00014, instr = 04603703
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00015, opcode = 0000011, funct3 = 100, generated instruction = 00000000000000000100011110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00015, instr = 00004783
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00016, opcode = 0000011, funct3 = 011, generated instruction = 00000010000000000011100000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00016, instr = 02003803
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00017, opcode = 0000011, funct3 = 011, generated instruction = 00000101010100000011100010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00017, instr = 05503883
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00018, opcode = 0000011, funct3 = 100, generated instruction = 00000011011000000100100100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00018, instr = 03604903
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00019, opcode = 0000011, funct3 = 001, generated instruction = 00000101111100000001100110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00019, instr = 05f01983
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00020, opcode = 0000011, funct3 = 100, generated instruction = 00000011110000000100101000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00020, instr = 03c04a03
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00021, opcode = 0000011, funct3 = 001, generated instruction = 00000110100100000001101010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00021, instr = 06901a83
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00022, opcode = 0000011, funct3 = 101, generated instruction = 00000101100000000101101100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00022, instr = 05805b03
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00023, opcode = 0000011, funct3 = 001, generated instruction = 00000101110000000001101110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00023, instr = 05c01b83
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00024, opcode = 0000011, funct3 = 100, generated instruction = 00000011000000000100110000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00024, instr = 03004c03
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00025, opcode = 0000011, funct3 = 100, generated instruction = 00000011001000000100110010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00025, instr = 03204c83
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00026, opcode = 0000011, funct3 = 100, generated instruction = 00001000001000000100110100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00026, instr = 08204d03
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00027, opcode = 0000011, funct3 = 011, generated instruction = 00000000000000000011110110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00027, instr = 00003d83
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00028, opcode = 0000011, funct3 = 011, generated instruction = 00000000000000000011111000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00028, instr = 00003e03
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00029, opcode = 0000011, funct3 = 101, generated instruction = 00000111010000000101111010000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00029, instr = 07405e83
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00030, opcode = 0000011, funct3 = 101, generated instruction = 00000011110000000101111100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00030, instr = 03c05f03
+Generated instruction ,instr_TYPE = 100, funct7=xxxxxxx, rs2 = xxxxx, rs1 = 00000, rd = 00031, opcode = 0000011, funct3 = 101, generated instruction = 00000001111100000101111110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=xxxxx, rs1=00000,rd=00031, instr = 01f05f83
+test is 2
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 11101, rs1 = 11000, rd = 00004, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11101, rs1=11000,rd=00004, instr = 0000ffff
+test is 13
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 00110, rs1 = 10111, rd = 00026, opcode = 1101111, funct3 = 000, generated instruction = 11100001010011110001110101101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=00110, rs1=10111,rd=00026, instr = e14f1d6f
+test is 7
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 10000, rs1 = 00110, rd = 00006, opcode = 1101111, funct3 = 000, generated instruction = 01100110100001000000001101101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=10000, rs1=00110,rd=00006, instr = 6684036f
+test is 9
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 01010, rs1 = 11000, rd = 00007, opcode = 0010011, funct3 = 000, generated instruction = 00001010111111000000001110010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01010, rs1=11000,rd=00007, instr = 0afc0393
+test is 11
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 11101, rs1 = 00101, rd = 00027, opcode = 0000011, funct3 = 100, generated instruction = 00000100100000101100110110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11101, rs1=00101,rd=00027, instr = 0482cd83
+test is 6
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 11100, rs1 = 11011, rd = 00019, opcode = 1100011, funct3 = 011, generated instruction = 10011011110011011011000011100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11100, rs1=11011,rd=00019, instr = 9bcdb0e3
+test is 11
+Generated instruction ,instr_TYPE = 110, funct7=000000, rs2 = 01010, rs1 = 11001, rd = 00020, opcode = 0100011, funct3 = 000, generated instruction = 00000010101011001000001100100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01010, rs1=11001,rd=00020, instr = 02ac8323
+test is 4
+Generated instruction ,instr_TYPE = 011, funct7=000000, rs2 = 11101, rs1 = 10100, rd = 00029, opcode = 0110111, funct3 = 000, generated instruction = 00000000000011101010111010110111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11101, rs1=10100,rd=00029, instr = 000eaeb7
+test is 15
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 01111, rs1 = 10010, rd = 00004, opcode = 0000011, funct3 = 100, generated instruction = 00000101000010010100001000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01111, rs1=10010,rd=00004, instr = 05094203
+test is 2
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 11010, rs1 = 00001, rd = 00012, opcode = 0010011, funct3 = 001, generated instruction = 00000000000000001001011000010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11010, rs1=00001,rd=00012, instr = 00009613
+test is 3
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 00100, rs1 = 00000, rd = 00022, opcode = 0010011, funct3 = 000, generated instruction = 00000111111000000000101100010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00100, rs1=00000,rd=00022, instr = 07e00b13
+test is 8
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 00110, rs1 = 01001, rd = 00010, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=00110, rs1=01001,rd=00010, instr = 0000ffff
+test is 7
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 10101, rs1 = 11110, rd = 00012, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=10101, rs1=11110,rd=00012, instr = 0000ffff
+test is 5
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 11001, rs1 = 11110, rd = 00025, opcode = 1100011, funct3 = 000, generated instruction = 00010101100111110000101111100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11001, rs1=11110,rd=00025, instr = 159f0be3
+test is 7
+Generated instruction ,instr_TYPE = 001, funct7=100000, rs2 = 10001, rs1 = 01010, rd = 00018, opcode = 0110011, funct3 = 000, generated instruction = 01000001000101010000100100110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10001, rs1=01010,rd=00018, instr = 41150933
+test is 11
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 10011, rs1 = 10101, rd = 00029, opcode = 1100011, funct3 = 110, generated instruction = 01110111001110101110111011100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10011, rs1=10101,rd=00029, instr = 773aeee3
+test is 9
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 11000, rs1 = 11001, rd = 00001, opcode = 1101111, funct3 = 000, generated instruction = 10110100100101111111000011101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11000, rs1=11001,rd=00001, instr = b497f0ef
+test is 2
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 11011, rs1 = 11001, rd = 00015, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11011, rs1=11001,rd=00015, instr = 0000ffff
+test is 6
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 00111, rs1 = 11111, rd = 00014, opcode = 1100011, funct3 = 111, generated instruction = 10010100011111111111010101100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00111, rs1=11111,rd=00014, instr = 947ff563
+test is 3
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 01111, rs1 = 10110, rd = 00020, opcode = 0000011, funct3 = 011, generated instruction = 00001111111110110011101000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01111, rs1=10110,rd=00020, instr = 0ffb3a03
+test is 4
+Generated instruction ,instr_TYPE = 001, funct7=000000, rs2 = 01110, rs1 = 01100, rd = 00014, opcode = 0110011, funct3 = 000, generated instruction = 00000000111001100000011100110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01110, rs1=01100,rd=00014, instr = 00e60733
+test is 0
+Generated instruction ,instr_TYPE = 001, funct7=100000, rs2 = 10011, rs1 = 10111, rd = 00023, opcode = 0110011, funct3 = 000, generated instruction = 01000001001110111000101110110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10011, rs1=10111,rd=00023, instr = 413b8bb3
+test is 14
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 01111, rs1 = 10101, rd = 00019, opcode = 0000011, funct3 = 011, generated instruction = 00000011011010101011100110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01111, rs1=10101,rd=00019, instr = 036ab983
+test is 4
+Generated instruction ,instr_TYPE = 011, funct7=000000, rs2 = 10111, rs1 = 01001, rd = 00016, opcode = 0110111, funct3 = 000, generated instruction = 00000000000011011100100000110111
+0 este ciclul la care ma aflu. Reset: 1, rs2=10111, rs1=01001,rd=00016, instr = 000dc837
+test is 12
+Generated instruction ,instr_TYPE = 001, funct7=100000, rs2 = 11001, rs1 = 00011, rd = 00022, opcode = 0110011, funct3 = 000, generated instruction = 01000001100100011000101100110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11001, rs1=00011,rd=00022, instr = 41918b33
+test is 7
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 01001, rs1 = 10011, rd = 00015, opcode = 0010011, funct3 = 001, generated instruction = 00001110010010011001011110010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01001, rs1=10011,rd=00015, instr = 0e499793
+test is 11
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 11101, rs1 = 10111, rd = 00028, opcode = 0010011, funct3 = 011, generated instruction = 00001010111010111011111000010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11101, rs1=10111,rd=00028, instr = 0aebbe13
+test is 2
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 01011, rs1 = 11010, rd = 00011, opcode = 1100011, funct3 = 101, generated instruction = 10110000101111010101001011100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01011, rs1=11010,rd=00011, instr = b0bd52e3
+test is 14
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 11000, rs1 = 10101, rd = 00023, opcode = 0000011, funct3 = 101, generated instruction = 00000011110010101101101110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11000, rs1=10101,rd=00023, instr = 03cadb83
+test is 11
+Generated instruction ,instr_TYPE = 110, funct7=000000, rs2 = 10111, rs1 = 10001, rd = 00018, opcode = 0100011, funct3 = 001, generated instruction = 00000011011110001001111010100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10111, rs1=10001,rd=00018, instr = 03789ea3
+test is 10
+Generated instruction ,instr_TYPE = 001, funct7=100000, rs2 = 00100, rs1 = 11001, rd = 00018, opcode = 0110011, funct3 = 000, generated instruction = 01000000010011001000100100110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00100, rs1=11001,rd=00018, instr = 404c8933
+test is 14
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 11001, rs1 = 11111, rd = 00020, opcode = 1101111, funct3 = 000, generated instruction = 11011101011101110000101001101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11001, rs1=11111,rd=00020, instr = dd770a6f
+test is 3
+Generated instruction ,instr_TYPE = 011, funct7=000000, rs2 = 01110, rs1 = 01011, rd = 00014, opcode = 0110111, funct3 = 000, generated instruction = 00000000000100000000011100110111
+0 este ciclul la care ma aflu. Reset: 1, rs2=01110, rs1=01011,rd=00014, instr = 00100737
+test is 13
+Generated instruction ,instr_TYPE = 001, funct7=100000, rs2 = 10101, rs1 = 01010, rd = 00007, opcode = 0110011, funct3 = 000, generated instruction = 01000001010101010000001110110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10101, rs1=01010,rd=00007, instr = 415503b3
+test is 11
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 10001, rs1 = 10100, rd = 00027, opcode = 0010011, funct3 = 010, generated instruction = 00010000100010100010110110010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10001, rs1=10100,rd=00027, instr = 108a2d93
+test is 5
+Generated instruction ,instr_TYPE = 110, funct7=000000, rs2 = 11110, rs1 = 11011, rd = 00002, opcode = 0100011, funct3 = 000, generated instruction = 00000001111011011000000000100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11110, rs1=11011,rd=00002, instr = 01ed8023
+test is 11
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 00111, rs1 = 11110, rd = 00020, opcode = 1101111, funct3 = 000, generated instruction = 00011011110010110101101001101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=00111, rs1=11110,rd=00020, instr = 1bcb5a6f
+test is 8
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 10001, rs1 = 00000, rd = 00015, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=10001, rs1=00000,rd=00015, instr = 0000ffff
+test is 6
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 10100, rs1 = 10010, rd = 00007, opcode = 1100011, funct3 = 001, generated instruction = 01010101010010010001000001100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10100, rs1=10010,rd=00007, instr = 55491063
+test is 10
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 10110, rs1 = 11101, rd = 00009, opcode = 0010011, funct3 = 011, generated instruction = 00010110001111101011010010010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10110, rs1=11101,rd=00009, instr = 163eb493
+test is 11
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 00111, rs1 = 01111, rd = 00006, opcode = 0000011, funct3 = 010, generated instruction = 00001101100001111010001100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00111, rs1=01111,rd=00006, instr = 0d87a303
+test is 11
+Generated instruction ,instr_TYPE = 001, funct7=000000, rs2 = 01010, rs1 = 01011, rd = 00006, opcode = 0110011, funct3 = 000, generated instruction = 00000000101001011000001100110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01010, rs1=01011,rd=00006, instr = 00a58333
+test is 0
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 00001, rs1 = 11011, rd = 00011, opcode = 1100011, funct3 = 010, generated instruction = 01000110000111011010110111100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00001, rs1=11011,rd=00011, instr = 461dade3
+test is 1
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 11110, rs1 = 01100, rd = 00025, opcode = 0010011, funct3 = 000, generated instruction = 00000100101101100000110010010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11110, rs1=01100,rd=00025, instr = 04b60c93
+test is 1
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 11000, rs1 = 00000, rd = 00028, opcode = 0000011, funct3 = 100, generated instruction = 00010011000000000100111000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11000, rs1=00000,rd=00028, instr = 13004e03
+test is 13
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 10111, rs1 = 00111, rd = 00021, opcode = 1100011, funct3 = 011, generated instruction = 11100101011100111011100011100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10111, rs1=00111,rd=00021, instr = e573b8e3
+test is 8
+Generated instruction ,instr_TYPE = 110, funct7=000000, rs2 = 11101, rs1 = 01101, rd = 00026, opcode = 0100011, funct3 = 000, generated instruction = 00010011110101101000110000100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11101, rs1=01101,rd=00026, instr = 13d68c23
+test is 7
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 01010, rs1 = 10111, rd = 00001, opcode = 1100011, funct3 = 010, generated instruction = 11011100101010111010101111100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01010, rs1=10111,rd=00001, instr = dcababe3
+test is 10
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 11000, rs1 = 10101, rd = 00031, opcode = 0000011, funct3 = 100, generated instruction = 00010100000010101100111110000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11000, rs1=10101,rd=00031, instr = 140acf83
+test is 8
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 11000, rs1 = 01100, rd = 00007, opcode = 0010011, funct3 = 100, generated instruction = 00011001010101100100001110010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11000, rs1=01100,rd=00007, instr = 19564393
+test is 2
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 01100, rs1 = 01101, rd = 00030, opcode = 1100011, funct3 = 001, generated instruction = 11000100110001101001010111100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01100, rs1=01101,rd=00030, instr = c4c695e3
+test is 3
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 10001, rs1 = 00110, rd = 00009, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=10001, rs1=00110,rd=00009, instr = 0000ffff
+test is 2
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 00001, rs1 = 00001, rd = 00027, opcode = 1100011, funct3 = 100, generated instruction = 10110100000100001100111101100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00001, rs1=00001,rd=00027, instr = b410cf63
+test is 5
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 01010, rs1 = 00001, rd = 00017, opcode = 1101111, funct3 = 000, generated instruction = 11010000100001001110100011101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=01010, rs1=00001,rd=00017, instr = d084e8ef
+test is 15
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 00001, rs1 = 00100, rd = 00007, opcode = 1101111, funct3 = 000, generated instruction = 00100001011011010101001111101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=00001, rs1=00100,rd=00007, instr = 216d53ef
+test is 13
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 01110, rs1 = 10110, rd = 00018, opcode = 0010011, funct3 = 011, generated instruction = 00010101110010110011100100010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01110, rs1=10110,rd=00018, instr = 15cb3913
+test is 0
+Generated instruction ,instr_TYPE = 001, funct7=100000, rs2 = 10001, rs1 = 11111, rd = 00008, opcode = 0110011, funct3 = 000, generated instruction = 01000001000111111000010000110011
+0 este ciclul la care ma aflu. Reset: 1, rs2=10001, rs1=11111,rd=00008, instr = 411f8433
+test is 15
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 00011, rs1 = 10001, rd = 00018, opcode = 0000011, funct3 = 010, generated instruction = 00000101100110001010100100000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00011, rs1=10001,rd=00018, instr = 0598a903
+test is 12
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 11110, rs1 = 11101, rd = 00023, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11110, rs1=11101,rd=00023, instr = 0000ffff
+test is 6
+Generated instruction ,instr_TYPE = 110, funct7=000000, rs2 = 11110, rs1 = 11011, rd = 00015, opcode = 0100011, funct3 = 010, generated instruction = 00010001111011011010100010100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=11110, rs1=11011,rd=00015, instr = 11eda8a3
+test is 15
+Generated instruction ,instr_TYPE = 011, funct7=000000, rs2 = 11100, rs1 = 10101, rd = 00025, opcode = 0110111, funct3 = 000, generated instruction = 00000000001011100000110010110111
+0 este ciclul la care ma aflu. Reset: 1, rs2=11100, rs1=10101,rd=00025, instr = 002e0cb7
+test is 13
+Generated instruction ,instr_TYPE = 110, funct7=000000, rs2 = 01001, rs1 = 00011, rd = 00019, opcode = 0100011, funct3 = 001, generated instruction = 00001010100100011001110100100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01001, rs1=00011,rd=00019, instr = 0a919d23
+test is 1
+Generated instruction ,instr_TYPE = 000, funct7=000000, rs2 = 00111, rs1 = 00111, rd = 00002, opcode = 0010011, funct3 = 000, generated instruction = 00000000000000001111111111111111
+0 este ciclul la care ma aflu. Reset: 1, rs2=00111, rs1=00111,rd=00002, instr = 0000ffff
+test is 15
+Generated instruction ,instr_TYPE = 100, funct7=000000, rs2 = 00110, rs1 = 11011, rd = 00008, opcode = 0000011, funct3 = 100, generated instruction = 00000000000011011100010000000011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00110, rs1=11011,rd=00008, instr = 000dc403
+test is 5
+Generated instruction ,instr_TYPE = 010, funct7=000000, rs2 = 00111, rs1 = 11010, rd = 00026, opcode = 0010011, funct3 = 110, generated instruction = 00001100000011010110110100010011
+0 este ciclul la care ma aflu. Reset: 1, rs2=00111, rs1=11010,rd=00026, instr = 0c0d6d13
+test is 10
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 00111, rs1 = 11100, rd = 00008, opcode = 1101111, funct3 = 000, generated instruction = 11010010111101011110010001101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=00111, rs1=11100,rd=00008, instr = d2f5e46f
+test is 12
+Generated instruction ,instr_TYPE = 111, funct7=000000, rs2 = 01000, rs1 = 10111, rd = 00028, opcode = 1100011, funct3 = 001, generated instruction = 01011110100010111001000101100011
+0 este ciclul la care ma aflu. Reset: 1, rs2=01000, rs1=10111,rd=00028, instr = 5e8b9163
+test is 13
+Generated instruction ,instr_TYPE = 101, funct7=000000, rs2 = 01000, rs1 = 01101, rd = 00012, opcode = 1101111, funct3 = 000, generated instruction = 01010010101010101000011001101111
+0 este ciclul la care ma aflu. Reset: 1, rs2=01000, rs1=01101,rd=00012, instr = 52aa866f
+*Verdi* Loading libsscore_vcs202303.so
+FSDB Dumper for VCS, Release Verdi_U-2023.03-SP2-9, Linux, 09/09/2024
+(C) 1996 - 2024 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'inter.fsdb'
+*Verdi* : Begin traversing the scopes, layer (0).
+*Verdi* : End of traversing.
+Test done!
+
+$finish called from file "../tb/tests/raw_tb.sv", line 279.
+$finish at simulation time             10000000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 10000000 ps
+CPU Time:      0.400 seconds;       Data structure size:   0.1Mb
+Wed Jun  4 11:39:35 2025
