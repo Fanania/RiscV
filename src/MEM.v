@@ -66,20 +66,20 @@
       // Setup the mask for SB/LB; LH/SH; LW/SW
       case (Addr[1:0])
         2'b00   : begin 
-                    BAlgnData[`DATA_WIDTH-1:0] = {{(3*`DATA_MASK_BYTE){Sign[0]}},RawData[`DATA_MASK_BYTE-1:0]};                                              // 3B sign ext + 1B data
-                    HAlgnData[`DATA_WIDTH-1:0] = {{`DATA_MASK_HALF{Sign[1]}},RawData[`DATA_MASK_HALF-1:0]};                                                  // 2B sign ext + 2B data
+                    BAlgnData[`DATA_WIDTH-1:0] = {{(3*`DATA_MASK_BYTE){Sign[0]}},RawData[`DATA_MASK_BYTE-1:0]};                   // 3B sign ext + byte 0 data
+                    HAlgnData[`DATA_WIDTH-1:0] = {{`DATA_MASK_HALF{Sign[1]}},RawData[`DATA_MASK_HALF-1:0]};                       // 2B sign ext + half 0 data
                   end
         2'b01   : begin
-                    BAlgnData[`DATA_WIDTH-1:0] = {{(2*`DATA_MASK_BYTE){Sign[1]}},RawData[2*`DATA_MASK_BYTE-1:`DATA_MASK_BYTE],{`DATA_MASK_BYTE{Sign[1]}}};   // 2B sign ext + 1B data + 1B sign ext
-                    HAlgnData[`DATA_WIDTH-1:0] = {RawData[`DATA_WIDTH-1:`DATA_MASK_HALF],{`DATA_MASK_HALF{Sign[3]}}};                                        // 2B sign ext + 2B data
+                    BAlgnData[`DATA_WIDTH-1:0] = {{(3*`DATA_MASK_BYTE){Sign[1]}},RawData[2*`DATA_MASK_BYTE-1:`DATA_MASK_BYTE]};   // 3B sign ext + byte 1 data
+                    HAlgnData[`DATA_WIDTH-1:0] = {{`DATA_MASK_HALF{Sign[3]}},RawData[`DATA_MASK_HALF-1:0]};                       // 2B sign ext + half 1 data
                   end
         2'b10   : begin
-                    BAlgnData[`DATA_WIDTH-1:0] = {{`DATA_MASK_BYTE{Sign[2]}},RawData[3*`DATA_MASK_BYTE-1:2*`DATA_MASK_BYTE],{(2*`DATA_MASK_BYTE){Sign[2]}}}; // 1B sign ext + 1B data + 2B sign ext
-                    HAlgnData[`DATA_WIDTH-1:0] = `DATA_WIDTH'hffff;                                                                                          // Imposible
+                    BAlgnData[`DATA_WIDTH-1:0] = {{(3*`DATA_MASK_BYTE){Sign[2]}},RawData[3*`DATA_MASK_BYTE-1:2*`DATA_MASK_BYTE]}; // 3B sign ext + byte 2 data
+                    HAlgnData[`DATA_WIDTH-1:0] = `DATA_WIDTH'hffff;                                                               // Imposible
                   end
         2'b11   : begin
-                    BAlgnData[`DATA_WIDTH-1:0] = {RawData[`DATA_WIDTH-1:3*`DATA_MASK_BYTE],{(3*`DATA_MASK_BYTE){Sign[3]}}};                                  // 1B data + 3B sign ext
-                    HAlgnData[`DATA_WIDTH-1:0] = `DATA_WIDTH'hffff;                                                                                          // Imposible                    
+                    BAlgnData[`DATA_WIDTH-1:0] = {{(3*`DATA_MASK_BYTE){Sign[3]}},RawData[2*`DATA_MASK_BYTE-1:`DATA_MASK_BYTE]};   // 3B sign ext + byte 3 data
+                    HAlgnData[`DATA_WIDTH-1:0] = `DATA_WIDTH'hffff;                                                               // Imposible                    
                   end
         default : begin
                     BAlgnData[`DATA_WIDTH-1:0] = RawData[`DATA_WIDTH-1:0];
