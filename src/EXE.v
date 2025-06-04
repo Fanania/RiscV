@@ -44,7 +44,7 @@ module EXECUTE_INSTR (
   reg                         Overflow;
   reg                         IsAdd; 
   reg                         IsSub; 
-  reg                         IsBge;
+  reg                         IsBgeOk;
   reg                         ZeroFlag;
   reg                         BranchOk;
   reg  [`DATA_WIDTH     -1:0] AluResult;
@@ -107,15 +107,20 @@ module EXECUTE_INSTR (
                                                                                  ^ (|Sign[1:0]))                                                  // Just rvert the slt result whenever there is a negative number in A or B
                                ;
     // Calculate Overflow. The only commands which can trigger Overflow it will be add and sub
-    Overflow = (IsAdd & ~(SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31])) 
-             | (IsSub &  (SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]))
+   Overflow = (IsAdd | IsSub) & ~(SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]) 
+       //      | (IsSub &  (SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]))
              ;
-
+    IsBgeOk = ((ID_AluControl[3:0] == `ALU_BGE) // if bge
+            & ~Overflow)                        // ..and not overflow that means the sub instr had an positive output
+            `ifdef CMD_BGEU                     // ..and if BGEU defined use a xor to reverse the polarity if there are negative inputs
+            ^ (|Sign[1:0])
+            `endif
+            ;
     ZeroFlag = ~|AluResult[`DATA_WIDTH-1:0];
     BranchOk =  (ID_AluControl[3:0] == `ALU_BEQ) &  ZeroFlag      // Expect to have zero if rs1==rs2
              |  (ID_AluControl[3:0] == `ALU_BNE) & ~ZeroFlag      // Non zero 
              |  (ID_AluControl[3:0] == `ALU_SLT) &  AluResult[0]  // 1 on lsb. BLT is processed as SLT
-             |  (ID_AluControl[3:0] == `ALU_BGE) & ~Overflow      // if bge and not overflow taht means that the sub instr had an positive output
+             |  (ID_AluControl[3:0] == `ALU_BGE) & ~Overflow      // if bge and not overflow that means the sub instr had an positive output
              ;
   end
 
