@@ -15,20 +15,19 @@ module REG32x32 #(parameter ADDR_WIDTH = 32) (
   
   integer k,j;
   reg [`DATA_WIDTH-1:0] Reg_Cell [`ADDR_WIDTH-1:0];
-`ifdef SIMULATION_ON
+`ifdef SIMULATION_ON     /// -> not synth. used only for simulations:W
   initial begin
     for (k=0; k<`ADDR_WIDTH; k=k+1) begin
       Reg_Cell[k][`DATA_WIDTH-1:0] <= k;
     end
   end
 `endif
-  always @(posedge clk) begin
-    // Momentan resetam fiecare intrare cu valoarea 0
- //   if (rst) begin
- //      for (k=0; k<`ADDR_WIDTH; k=k+1) begin
- //        Reg_Cell[k][`DATA_WIDTH-1:0] <= {`ADDR_WIDTH{1'h0}};
- //      end
- /*   end else */ if (write_enable) begin
+  always @(posedge clk) begin 
+   if (rst) begin
+       for (k=0; k<`ADDR_WIDTH; k=k+1) begin
+         Reg_Cell[k][`DATA_WIDTH-1:0] <= {`ADDR_WIDTH{1'h0}};
+       end
+    end else if (write_enable) begin
       // Se foloseste campul de adresa preluat din pachet pentru a determina unde se va peterce scrierea
       Reg_Cell[wr_addr[`ADDR_IDX-1:0]][`DATA_WIDTH-1:0] <= data_in[`DATA_WIDTH-1:0];
     end else begin
