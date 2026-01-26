@@ -21,12 +21,12 @@ module CU (
   output reg              [1:0] CU_ResultSrc,         // Selector on wb mux
   output reg                    CU_Jump,              // jal writes PC+4 to rd and changes PC to the jump target address, PC + imm.
   output reg                    CU_Branch,            // Branch flag.
-
-  input [`INSTR_TYPE_WIDTH-1:0] InstrType,            // First stage of decoding done in the main decoder
-  input                         Funct7Zero,           // 7'b000_0000 vs .. 
-  input                         Funct7NonZero,        // .. vs 7'b010_0000
-  input         [`FUNCT3_RANGE] InstrIn               // funct3 from the raw instruction
+  output reg              [2:0] CU_Hwa,               // Hardware Assert 
+  input      [`INSTR_WIDTH-1:0] Instr                 // Take the Instr and compute the control signals
   );
+
+  wire                Funct7Zero;                     // 7'b000_0000 vs .. 
+  wire                Funct7NonZero;                  // .. vs 7'b010_0000
 
   reg [`CMD_WIDTH-1:0]Cmd;
   reg [`CMD_WIDTH-1:0]CmdDec;                         // 2nd stage of decoding. BOZO maybe 1st/2nd 2nd/3rd decoding stages could be combined. Helped on simulation but complicates the logic and the actrual ahrdware
@@ -37,57 +37,70 @@ module CU (
   reg                 J_Instr;
   reg                 B_Instr;
   reg                 L_Instr;  
+  reg                 InvldOp;
+  reg                 InvldFct3;
+  reg                 InvldFct7;  
+    // R type instructions uses funct7 but have only 2 values 7'b0 and 7'b0100000
+  assign  Funct7Zero    = ~|Instr[`FUNCT7_RANGE];                // All 7 bits are zeroed
+  assign  Funct7NonZero = Instr[`FUNCT7_RANGE] == 7'b0100000;    // BOZO optimise
 
   always @* begin
-   // Some Alu Commands have same Funct3 encoding
-    R_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `R_INSTR);
-    I_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `I_INSTR);
-    B_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `B_INSTR);
-    S_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `S_INSTR);
-    U_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `U_INSTR);
-    J_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `J_INSTR);
-    L_Instr   = (InstrType[`INSTR_TYPE_WIDTH-1:0] == `L_INSTR);    
-
-    casex (InstrIn[`FUNCT3_RANGE])
-      // Use Control Fields to decode funct7,funct3,opcode
-      // Add ovl here. Default operation is NOP
-      3'b000  : CmdDec[`CMD_WIDTH-1:0] = `CMD_ADD  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}} // Same Funct3 encoding across R and I intr types
-                                       | `CMD_SUB  & {`CMD_WIDTH{Funct7NonZero & R_Instr}}            // Only in R type
-                                       | `CMD_LB   & {`CMD_WIDTH{L_Instr}}                            // Load byte-> techincally an I type but marked as a subcategory
-                                       | `CMD_SB   & {`CMD_WIDTH{S_Instr}}
-                                       | `CMD_BEQ  & {`CMD_WIDTH{B_Instr}}
-                                       ;
-      3'b001  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SLL  & {`CMD_WIDTH{Funct7Zero    & (R_Instr | I_Instr)}}
-                                       | `CMD_LH   & {`CMD_WIDTH{L_Instr}}                            // Load byte-> techincally an I type but marked as a subcategory
-                                       | `CMD_SH   & {`CMD_WIDTH{S_Instr}}
-                                       | `CMD_BNE  & {`CMD_WIDTH{B_Instr}}
-                                       ;
-      3'b010  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SLT  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}
-                                       | `CMD_LW   & {`CMD_WIDTH{L_Instr}}                            // Load byte-> techincally an I type but marked as a subcategory
-                                       | `CMD_SW   & {`CMD_WIDTH{S_Instr}}
-                                       ;
-      3'b011  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SLTU & {`CMD_WIDTH{Funct7Zero    & (R_Instr | I_Instr)}};
-      3'b100  : CmdDec[`CMD_WIDTH-1:0] = `CMD_XOR  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}
-                                       | `CMD_LBU  & {`CMD_WIDTH{L_Instr}}                            // Load byte-> techincally an I type but marked as a subcategory 
-                                       | `CMD_BLT  & {`CMD_WIDTH{B_Instr}}                                    
-                                       ;
-      3'b101  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SRL  & {`CMD_WIDTH{Funct7Zero    & (R_Instr | I_Instr)}}
-                                       | `CMD_SRA  & {`CMD_WIDTH{Funct7NonZero & (R_Instr | I_Instr)}}
-                                       | `CMD_LHU  & {`CMD_WIDTH{L_Instr}}                            // Load byte-> techincally an I type but marked as a subcategory                                     
-                                       | `CMD_BGE  & {`CMD_WIDTH{B_Instr}}
-                                       ;
-      3'b110  : CmdDec[`CMD_WIDTH-1:0] = `CMD_OR   & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}
-                                       | `CMD_BLTU & {`CMD_WIDTH{B_Instr}}      
-                                       ;
-      3'b111  : CmdDec[`CMD_WIDTH-1:0] = `CMD_AND  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}
-                                       | `CMD_BGEU & {`CMD_WIDTH{B_Instr}}
-                                       ;
-      default : CmdDec[`CMD_WIDTH-1:0] = `CMD_NOP;
-    endcase
-    // Above are covered almost all commands
-    // U instr do not use funct3 
-      CmdDec[`CMD_WIDTH-1:0] = `CMD_ADD & {`CMD_WIDTH{U_Instr}};  // Override the CmdDec for lui and auipc -> Could be further optimised
-
+    // Decoding Instruction area     
+    R_Instr   =  Instr[`OPCODE_RANGE] == `OP_ARITM_R;            // opcode is matching the R encoding
+    L_Instr   =  Instr[`OPCODE_RANGE] == `OP_LOAD_IMM;           // load is techincally an I type but I'm segregating in it's own type
+    I_Instr   =  Instr[`OPCODE_RANGE] == `OP_ARITM_IMM           // imm Arithmetic instr like addi
+              |  Instr[`OPCODE_RANGE] == `OP_JUMP_LINK_I         // JALR rs1+<12 imm signed extended> bits. Makes sense to be an I type no matter if it is a jump
+              ;
+    J_Instr   =  Instr[`OPCODE_RANGE] == `OP_JUMP_LINK_J
+              |  Instr[`OPCODE_RANGE] == `OP_JUMP_LINK_I         // JALR rs1+<12 imm signed extended> bits. Makes sense to be an J type no matter if it is using an IMM
+              ;    
+    B_Instr   =  Instr[`OPCODE_RANGE] == `OP_BRANCH;             // opcode is matching the B encoding
+    S_Instr   =  Instr[`OPCODE_RANGE] == `OP_STORE_IMM;          // opcode is matching the S encoding
+    U_Instr   =  Instr[`OPCODE_RANGE] == `OP_ADD_UPPER_I         // opcode is matching the I specific auipc encoding
+              |  Instr[`OPCODE_RANGE] == `OP_LOAD_UPPER_I        // opcode is matching the U specific lui encoding
+              ;
+    if (J_Instr| U_Instr) begin                                  // J/U instr do not use funct3
+      CmdDec[`CMD_WIDTH-1:0] = `CMD_ADD & {`CMD_WIDTH{U_Instr}}  // CmdDec is ADD for lui and auipc -> Could be further optimised
+                             | `CMD_J   & {`CMD_WIDTH{J_Instr}}
+                             ;
+    end else begin
+      casex (Instr[`FUNCT3_RANGE])
+        // Use Control Fields to decode funct7,funct3,opcode
+        // Add ovl here. Default operation is NOP
+        3'b000  : CmdDec[`CMD_WIDTH-1:0] = `CMD_ADD  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}  // Same Funct3 for ADD & ADDI encoding across R and I intr types
+                                         | `CMD_SUB  & {`CMD_WIDTH{Funct7NonZero & R_Instr}}             // Only in R type
+                                         | `CMD_LB   & {`CMD_WIDTH{L_Instr}}                             // Load byte-> techincally an I type but marked as a subcategory
+                                         | `CMD_SB   & {`CMD_WIDTH{S_Instr}}
+                                         | `CMD_BEQ  & {`CMD_WIDTH{B_Instr}}
+                                         ;
+        3'b001  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SLL  & {`CMD_WIDTH{Funct7Zero    & (R_Instr | I_Instr)}} // Same Funct3 for SLL & SLLI encoding across R and I intr types
+                                         | `CMD_LH   & {`CMD_WIDTH{L_Instr}}                             // Load byte-> techincally an I type but marked as a subcategory
+                                         | `CMD_SH   & {`CMD_WIDTH{S_Instr}}
+                                         | `CMD_BNE  & {`CMD_WIDTH{B_Instr}}
+                                         ;
+        3'b010  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SLT  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}  // Same Funct3 for SLT & SLTI encoding across R and I intr types
+                                         | `CMD_LW   & {`CMD_WIDTH{L_Instr}}                             // Load byte-> techincally an I type but marked as a subcategory
+                                         | `CMD_SW   & {`CMD_WIDTH{S_Instr}}
+                                         ;
+        3'b011  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SLTU & {`CMD_WIDTH{Funct7Zero    & (R_Instr | I_Instr)}};// Same Funct3 for SLTU & SLTIU encoding across R and I intr types
+        3'b100  : CmdDec[`CMD_WIDTH-1:0] = `CMD_XOR  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}
+                                         | `CMD_LBU  & {`CMD_WIDTH{L_Instr}}                             // Load byte-> techincally an I type but marked as a subcategory 
+                                         | `CMD_BLT  & {`CMD_WIDTH{B_Instr}}                                    
+                                         ;
+        3'b101  : CmdDec[`CMD_WIDTH-1:0] = `CMD_SRL  & {`CMD_WIDTH{Funct7Zero    & (R_Instr | I_Instr)}} // Same Funct3 for SRL & SRLI encoding across R and I intr types
+                                         | `CMD_SRA  & {`CMD_WIDTH{Funct7NonZero & (R_Instr | I_Instr)}} // Same Funct3 for SRA & SRAI encoding across R and I intr types
+                                         | `CMD_LHU  & {`CMD_WIDTH{L_Instr}}                             // Load byte-> techincally an I type but marked as a subcategory                                     
+                                         | `CMD_BGE  & {`CMD_WIDTH{B_Instr}}
+                                         ;
+        3'b110  : CmdDec[`CMD_WIDTH-1:0] = `CMD_OR   & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}  // Same Funct3 for OR & ORI encoding across R and I intr types
+                                         | `CMD_BLTU & {`CMD_WIDTH{B_Instr}}      
+                                         ;
+        3'b111  : CmdDec[`CMD_WIDTH-1:0] = `CMD_AND  & {`CMD_WIDTH{(Funct7Zero   & R_Instr) | I_Instr}}  // Same Funct3 for AND & ANDI encoding across R and I intr types
+                                         | `CMD_BGEU & {`CMD_WIDTH{B_Instr}}
+                                         ;
+        default : CmdDec[`CMD_WIDTH-1:0] = `CMD_NOP;
+      endcase
+    end  
     // For these shift instructions, imm4:0 is the 5-bit unsigned shift amount; 
     // The upper seven imm bits are 0 for srli and slli, but srai puts a 1 in imm10 (i.e., instruction bit 30)
     CU_ImmShft = ((CmdDec[`CMD_WIDTH-1:0] == `CMD_SLL)
@@ -190,7 +203,31 @@ module CU (
       default   :  {CU_AluControl[3:0],CU_UnsignedFlag} = {`ALU_NOP,1'b0};
     endcase
   end
-
+  always @* begin
+    InvldOp   = ~(R_Instr | L_Instr | I_Instr | J_Instr | B_Instr | S_Instr | U_Instr); // Invalid opcode    
+    // Generating Hwa for wrong funct3 encodings
+    // R and I instructions use all FUNCT3 encodings.
+    InvldFct3 = L_Instr & &Instr[`FUNCT3_MSB:`FUNCT3_MSB-1]  // L instr doesn't use 3'b110 and 3'b111
+              | S_Instr & Instr[`FUNCT3_MSB]                 // S instr doesn't use upper half of the funct3 encodings
+              | B_Instr & Instr[`FUNCT3_RANGE] == 3'b010     // B instr doesn't have 010
+              ;
+    // Generating Hwa for wrong funct3 encodings
+    InvldFct7 = R_Instr & ~|Instr[`FUNCT3_RANGE] & ~Funct7Zero         & ~Funct7NonZero               // wrong funct7 values for add/sub
+              | (R_Instr | I_Instr) & (Instr[`FUNCT3_RANGE] == 3'b001) & ~Funct7Zero                  // wrong encoding of SLL/SLLI
+              | R_Instr & (Instr[`FUNCT3_RANGE] == 3'b010) & ~Funct7Zero                              // wrong slt encoding
+              | (R_Instr | I_Instr) & (Instr[`FUNCT3_RANGE] == 3'b011) & ~Funct7Zero                  // wrong sltu encoding
+              | R_Instr & (Instr[`FUNCT3_RANGE] == 3'b100) & ~Funct7Zero                              // wrong xor encoding
+              | (R_Instr | I_Instr) & (Instr[`FUNCT3_RANGE] == 3'b101) & ~Funct7Zero & ~Funct7NonZero // wrong srl/sra encoding
+              | R_Instr & (Instr[`FUNCT3_RANGE] == 3'b110) & ~Funct7Zero                              // wrong or encoding
+              | R_Instr & &Instr[`FUNCT3_RANGE] & ~Funct7Zero                                         // wrong and encoding
+              ;
+  CU_Hwa[2:0] = {
+                 InvldOp,    // Opcode unexpected. Highest priority to generte an interruption
+                 InvldFct3,  // Funct3 unexpected
+                 InvldFct7   // Funct7 unexpected
+                }
+              ;
+  end    
 endmodule
 
 module DECODE_INSTR (
@@ -210,6 +247,7 @@ module DECODE_INSTR (
   output reg                   ID_UnsignedFlag,              // Unsigned Flag
   output reg   [`ADDR_IDX-1:0] ID_Rs1,                       // Corresponding reg addr for ID_Rd1
   output reg   [`ADDR_IDX-1:0] ID_Rs2,                       // Corresponding reg addr for ID_Rd2
+  output   [`HWA_ID_WIDTH-1:0] ID_Hwa,                       // Hardware Assert Bus which triggers an exception
 
   input     [`INSTR_WIDTH-1:0] IF_Instr,                     // switched out to in
   input        [`PC_WIDTH-1:0] IF_Pc,
@@ -232,23 +270,23 @@ module DECODE_INSTR (
   wire                        CU_Branch;
   wire                  [3:0] CU_AluControl;
   wire                  [3:0] CU_LoadStoreCtrl;
+  wire                        Hwa_JumpUnal;
+  wire                  [2:0] CU_Hwa;
   reg        [`CMD_WIDTH-1:0] Cmd_d1;
   reg       [`DATA_WIDTH-1:0] ImmExt;
   reg       [`DATA_WIDTH-1:0] RegOut1_d1;
   reg       [`DATA_WIDTH-1:0] RegOut2_d1;
-  reg       [`DATA_WIDTH-1:0] Rd1_d0;  
+  reg       [`DATA_WIDTH-1:0] Rd1_d0;
   reg       [`DATA_WIDTH-1:0] AddUpperItoPc;
-  reg [`INSTR_TYPE_WIDTH-1:0] InstrType;
-  reg                         Funct7Zero;
-  reg                         Funct7NonZero;
   reg                         SignImm;
+  reg                         Jalr;
   reg                         Imm_shft; // 0-> slli; 1-> srli; 2 ->srai
-  reg      [`DATA_WIDTH-1:0] I_Type_Imm;
-  reg      [`DATA_WIDTH-1:0] U_Type_Imm;
-  reg      [`DATA_WIDTH-1:0] S_Type_Imm;
-  reg      [`DATA_WIDTH-1:0] J_Type_Imm;  
-  reg      [`DATA_WIDTH-1:0] B_Type_Imm;
-  reg                        CU_AluSrc;
+  reg       [`DATA_WIDTH-1:0] I_Type_Imm;
+  reg       [`DATA_WIDTH-1:0] U_Type_Imm;
+  reg       [`DATA_WIDTH-1:0] S_Type_Imm;
+  reg       [`DATA_WIDTH-1:0] J_Type_Imm;  
+  reg       [`DATA_WIDTH-1:0] B_Type_Imm;
+  reg                         CU_AluSrc;
   
   assign ClkEn                    = 1'b1;   // Set it unconditionally to 1 for now
   // The register file is written by every instruction except sw. 
@@ -267,29 +305,15 @@ module DECODE_INSTR (
   .r_addr2              (IF_Instr[`RS2_RANGE]) 
   );
 
+  // RV32I provides two types of control transfer instructions: unconditional jumps and conditional branches.
   always @* begin
-  // Decoding Instruction area  
-    InstrType[`INSTR_TYPE_WIDTH-1:0] = (`R_INSTR &   {`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_ARITM_R     }})    // opcode is matching the R encoding
-                                     | (`L_INSTR &   {`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_LOAD_IMM    }})    // load is techincally an I type but I'm segregating in it's own type
-                                     | (`I_INSTR & (({`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_ARITM_IMM   }})
-                                                  | ({`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_JUMP_LINK_I }})))  // BOZO not sure if shuold be added on j type
-                                     | (`J_INSTR &   {`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_JUMP_LINK_J }})    // opcode is matching the J encoding
-                                     | (`S_INSTR &   {`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_STORE_IMM   }})    // opcode is matching the S encoding
-                                     | (`U_INSTR & (({`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_ADD_UPPER_I }})    // opcode is matching the U encoding
-                                                  | ({`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_LOAD_UPPER_I}})))  // opcode is matching one of 2 expected I types opcodes
-                                     | (`B_INSTR &   {`INSTR_TYPE_WIDTH{IF_Instr[`OPCODE_RANGE] == `OP_BRANCH      }})    // opcode is matching the B encoding
-                                     ;                                                                                        // NOP will be assigned be default
-  // Some I type instructions are using only uimm: 5-bit unsigned immediate in imm4:0. Segregating the legacy Imm[11:0] field in two sides : funct7[11:5] and Imm[4:0]
-  // R type instructions uses funct7 but have only 2 values 7'b0 and 7'b0100000
-    Funct7Zero    = ~|IF_Instr[`FUNCT7_RANGE];                // All 7 bits are zeroed
-    Funct7NonZero = IF_Instr[`FUNCT7_RANGE] == 7'b0100000;
+    // Some I type instructions are using only uimm: 5-bit unsigned immediate in imm4:0. Segregating the legacy Imm[11:0] field in two sides : funct7[11:5] and Imm[4:0]
+    Jalr          = IF_Instr[`OPCODE_RANGE] == `OP_JUMP_LINK_I;                                              // Merge with the traditional Jump flag to ensure taht in the next cycle the Jump execution is doen corectly.
     // AUIPC stores the actual PC + imm<<12 in rd
-    AddUpperItoPc[`DATA_WIDTH-1:0] = (IF_Instr[`OPCODE_RANGE]==`OP_ADD_UPPER_I)                 // for auipc the pc is going to EXE; for lui zero is going to EXE
-                                   & {{(`PC_WIDTH-`DATA_WIDTH){1'b0}},IF_Pc[`PC_WIDTH-1:0]}     // Make this conversion to ensure there are no hardware errors generated by width mimatches. Assume data will be always smaller or equal
-                                   ;
-    Rd1_d0[`DATA_WIDTH-1:0] = (InstrType[`INSTR_TYPE_WIDTH-1:0]==`U_INSTR) ? AddUpperItoPc[`DATA_WIDTH-1:0]  // Myabe will look nicer in EXE :-)
-                                                                           : RegOut1_d0[`DATA_WIDTH-1:0]
-                                                                           ;
+    AddUpperItoPc[`DATA_WIDTH-1:0] = {{(`PC_WIDTH-`DATA_WIDTH){1'b0}},IF_Pc[`PC_WIDTH-1:0]};                 // Make this conversion to ensure there are no hardware errors generated by width mimatches. Assume data will be always smaller or equal
+    Rd1_d0[`DATA_WIDTH-1:0] = (IF_Instr[`OPCODE_RANGE]==`OP_ADD_UPPER_I) ? AddUpperItoPc[`DATA_WIDTH-1:0]    // Myabe will look nicer in EXE :-)
+                                                                         : RegOut1_d0[`DATA_WIDTH-1:0]
+                                                                         ;
   end
 
   CU ControlUnit_inst (
@@ -302,11 +326,9 @@ module DECODE_INSTR (
   .CU_RegWrite        (CU_RegWrite),
   .CU_MemWriteEn      (CU_MemWriteEn),
   .CU_Jump            (CU_Jump),
-  .CU_Branch          (CU_Branch),  
-  .InstrType          (InstrType[`INSTR_TYPE_WIDTH-1:0]),
-  .Funct7Zero         (Funct7Zero),
-  .Funct7NonZero      (Funct7NonZero),
-  .InstrIn            (IF_Instr[`FUNCT3_RANGE])
+  .CU_Branch          (CU_Branch),
+  .CU_Hwa             (CU_Hwa),
+  .Instr              (IF_Instr)
   );
 
   always @* begin
@@ -326,19 +348,33 @@ module DECODE_INSTR (
     // S-type instructions encode a 12-bit signed (twos complement) immediate, with the top seven bits (imm11:5) in bits 31:25 of the instr
     S_Type_Imm[`DATA_WIDTH-1:0] = {{20{SignImm}},{IF_Instr[`S_B_IMMHI_RANGE],IF_Instr[`S_B_IMMLO_RANGE]}};              // {31:25,11:7}
     // B-type instructions encode a 13-bit signed immediate representing the branch offset, but only 12 of the bits are encoded in the instruction
-    B_Type_Imm[`DATA_WIDTH-1:0] = {{11{SignImm}},IF_Instr[7],IF_Instr[30:25],IF_Instr[11:8],1'b0};                      // Here I'm not using define to have better visibility on the bits ranges
-    J_Type_Imm[`DATA_WIDTH-1:0] = {{11{SignImm}},IF_Instr[19:12],IF_Instr[11],IF_Instr[30:21],1'b0};                    // Here I'm not using define to have better visibility on the bits ranges
-
-    case (InstrType[`INSTR_TYPE_WIDTH-1:0])
-      `I_INSTR,
-      `L_INSTR  : ImmExt[`DATA_WIDTH-1:0] = I_Type_Imm[`DATA_WIDTH-1:0];                                                // on I+L formats expect same Imm format
-      `U_INSTR  : ImmExt[`DATA_WIDTH-1:0] = U_Type_Imm[`DATA_WIDTH-1:0];                                                // Upper shifted value
-      `B_INSTR  : ImmExt[`DATA_WIDTH-1:0] = B_Type_Imm[`DATA_WIDTH-1:0];                                                // Upper shifted value
-      `S_INSTR  : ImmExt[`DATA_WIDTH-1:0] = S_Type_Imm[`DATA_WIDTH-1:0];                                                      
-      `J_INSTR  : ImmExt[`DATA_WIDTH-1:0] = J_Type_Imm[`DATA_WIDTH-1:0];                                                // BOZO make sure that the right J cmds are here
-       default  : ImmExt[`DATA_WIDTH-1:0] = `DATA_WIDTH'h0;                                                             // For R formats
+    B_Type_Imm[`DATA_WIDTH-1:0] = {{20{SignImm}},IF_Instr[7],IF_Instr[30:25],IF_Instr[11:8],1'b0};                      // Here I'm not using define to have better visibility on the bits ranges
+    J_Type_Imm[`DATA_WIDTH-1:0] = {{12{SignImm}},IF_Instr[19:12],IF_Instr[20],IF_Instr[30:21],1'b0};                    // Here I'm not using define to have better visibility on the bits ranges
+   
+    case (IF_Instr[`OPCODE_RANGE])
+      `OP_LOAD_IMM,
+      `OP_ARITM_IMM,
+      `OP_JUMP_LINK_I   : ImmExt[`DATA_WIDTH-1:0] = I_Type_Imm[`DATA_WIDTH-1:0];                                        // on I+L formats expect same Imm format
+      `OP_BRANCH        : ImmExt[`DATA_WIDTH-1:0] = B_Type_Imm[`DATA_WIDTH-1:0];                                        // Upper shifted value
+      `OP_STORE_IMM     : ImmExt[`DATA_WIDTH-1:0] = S_Type_Imm[`DATA_WIDTH-1:0];                                                     
+      `OP_JUMP_LINK_J   : ImmExt[`DATA_WIDTH-1:0] = J_Type_Imm[`DATA_WIDTH-1:0];                                        // The jump instruction uses the J-type format where the J-immediate encodes a signed o set in multiples of 2 bytes.
+      `OP_LOAD_UPPER_I,
+      `OP_ADD_UPPER_I   : ImmExt[`DATA_WIDTH-1:0] = U_Type_Imm[`DATA_WIDTH-1:0];                                        // Upper shifted value
+       default          : ImmExt[`DATA_WIDTH-1:0] = `DATA_WIDTH'h0;                                                     // For R formats
     endcase
   end
+  // Practically the jumps have 2 byte granularity. When RV32I includes Compressed instructions (16 bits instead of 32) it is very usefull.
+ `ifndef C_EXTENSION_ON  // If the implementation does not support instructions smaller than 4 bytes exceptions shall be raised when j_imm % 4 != 0
+  assign Hwa_JumpUnal = J_Type_Imm[1] & CU_Jump;
+ `else
+  assign Hwa_JumpUnal = 1'b0;
+ `endif 
+  assign ID_Hwa[`HWA_ID_WIDTH-1:0] = {                       // Add new entries on top
+                                      CU_Hwa[2:0],           // Instruction decode errors
+                                      Hwa_JumpUnal,          // Jump Addr unaligned
+                                      5'h0                   // Reserved bits                                      
+                                     }
+                                   ;
 
   always @(posedge clk) begin
     if (rst | Flush) begin
@@ -369,8 +405,8 @@ module DECODE_INSTR (
       ID_MemWriteEn                    <= CU_MemWriteEn;   
       ID_LoadStoreCtrl           [3:0] <= CU_LoadStoreCtrl            [3:0];   
       ID_Rdest         [`ADDR_IDX-1:0] <= IF_Instr             [ `RD_RANGE];    
-      ID_ResultSrc               [1:0] <= CU_ResultSrc                [1:0];
-      ID_Jump                          <= CU_Jump;
+      ID_ResultSrc               [1:0] <= CU_ResultSrc[1:0] | {1'b0,Jalr};  // BOZO fixme
+      ID_Jump                          <= CU_Jump | Jalr;                   // BOZO fixme
       ID_Branch                        <= CU_Branch;
       ID_UnsignedFlag                  <= UnsignedFlag_d0;
       ID_Rs1           [`ADDR_IDX-1:0] <= IF_Instr             [`RS1_RANGE];
