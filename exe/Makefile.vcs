@@ -2,9 +2,11 @@
 TESTNAME ?= general
 OUT_DIR   = out
 TEST      = /usr/bin/test
+RUN      ?= raw_tb
 N_ERRS    = 0
 N_FATALS  = 0
 
+SEED     ?= auto
 SRC_DIR   = ../src
 TB_DIR    = ../tb
 TEST_DIR  = $(TB_DIR)/tests
@@ -13,17 +15,16 @@ VCS = vcs -sverilog -timescale=1ns/1ns \
     -debug_access+all -debug_region+cell \
     +incdir+$(TB_DIR) \
     +incdir+$(SRC_DIR) \
-    +ntb_random_seed=auto \
     +vpi \
     -CFLAGS -DVCS
 
-SIMV = ./simv +vcs+vcdpluson +testname=$(TESTNAME)  -l build_and_test.log
+SIMV = ./simv +vcs+vcdpluson +testname=$(TESTNAME) +ntb_random_seed=$(SEED) -l build_and_test.log
 
 all: comp run
 
 comp:
-#	$(VCS) $(TEST_DIR)/raw_tb.sv -kdb
-	$(VCS) $(TEST_DIR)/evolved_tb.sv -kdb
+	$(VCS) $(TEST_DIR)/$(RUN).sv -kdb
+#	$(VCS) $(TEST_DIR)/evolved_tb.sv -kdb
 run:
 	$(SIMV)
 
@@ -34,4 +35,4 @@ tests:
 	@echo ":"
 	@echo "  make run TESTNAME=add"
 	@echo "  make run TESTNAME=branch"
-	@echo "  make run TESTNAME=
+	@echo "  make run TESTNAME=load"
