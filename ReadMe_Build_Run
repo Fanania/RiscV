@@ -1,0 +1,19 @@
+1.BUILD and run the tb in /home/fananiae/disertatie_Anania/exe: 
+ vcs -sverilog -timescale=1ns/1ns -debug_access+all -debug_region+cell +incdir+../sv +incdir+../design +vpi -CFLAGS -DVCS ../tb/top_tb.sv -kdb
+2. After the run command is executed succesfuly, the following file swill be generated:
+ csrc 
+ simv 
+ simv.daidir 
+ verdi_config_file
+3. Run tthe simulation with waves using:
+ ./simv +vcs+vcdpluson
+4. After it was runned succesfuly: the files generated will be:
+ csrc  dump.vcd	inter.fsdb  novas_dump.log  simv  simv.daidir  ucli.key  verdi_config_file
+5. To open the waves use:
+ verdi -ssf inter.fsdb
+
+
+ Better use this to run and simulate:
+ make -f SVMakefile.vcs
+
+ make -f Makefile.vcs RUN=evolved_tb SEED=2 TEST_ARGS="+testname=general +allow_unaligned_ls=
