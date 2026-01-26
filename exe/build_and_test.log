@@ -1,0 +1,614 @@
+Command: /home/fananiae/disertatie_Anania/exe/./simv +vcs+vcdpluson +testname=general +ntb_random_seed=2 -l build_and_test.log
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09-SP2-5; Runtime version W-2024.09-SP2-5;  Jan 21 07:41 2026
+Seed = 1282768320
+[S_TYPE] rd=0, rs1=6, rs2=23, imm=8, funct3=10, funct7=0, opcode=100011
+my generated instruction is 01732423
+[S_TYPE] rd=0, rs1=13, rs2=14, imm=2, funct3=1, funct7=0, opcode=100011
+my generated instruction is 00e69123
+on instr with the pc           8, target_idx =         17 ,my Instruction is , Imm is          17
+
+DEBUG FLORIN IMM: imm = 00000011, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 008
+DEBUG FLORIN INSTR: instr = 0100026f, instr[31] = 0, instr[30:21] = 008, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=4, rs1=0, rs2=0, imm=17, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 0100026f
+DEBUG I ENCODE: imm_i_s=1, rd=31, rs1=9, funct3=6 -> instr=0014ef93
+[I_TYPE] rd=31, rs1=9, rs2=0, imm=1, funct3=110, funct7=0, opcode=10011
+my generated instruction is 0014ef93
+DEBUG I ENCODE: imm_i_s=4, rd=29, rs1=21, funct3=2 -> instr=004aae83
+[L_TYPE] rd=29, rs1=21, rs2=0, imm=4, funct3=10, funct7=0, opcode=11
+my generated instruction is 004aae83
+on instr with the pc          20, target_idx =         20 ,my Instruction is , Imm is          20
+
+[B_TYPE] rd=0, rs1=3, rs2=23, imm=20, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 01719a63
+DEBUG I ENCODE: imm_i_s=12, rd=6, rs1=19, funct3=4 -> instr=00c9c313
+[I_TYPE] rd=6, rs1=19, rs2=0, imm=12, funct3=100, funct7=0, opcode=10011
+my generated instruction is 00c9c313
+[R_TYPE] rd=4, rs1=24, rs2=13, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 00dc6233
+[R_TYPE] rd=3, rs1=8, rs2=12, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 00c401b3
+[R_TYPE] rd=7, rs1=13, rs2=25, imm=0, funct3=10, funct7=0, opcode=110011
+my generated instruction is 0196a3b3
+[R_TYPE] rd=6, rs1=31, rs2=17, imm=0, funct3=1, funct7=0, opcode=110011
+my generated instruction is 011f9333
+on instr with the pc          44, target_idx =         26 ,my Instruction is , Imm is          26
+
+DEBUG FLORIN IMM: imm = 0000001a, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 00d
+DEBUG FLORIN INSTR: instr = 01a003ef, instr[31] = 0, instr[30:21] = 00d, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=7, rs1=0, rs2=0, imm=26, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 01a003ef
+on instr with the pc          48, target_idx =         27 ,my Instruction is , Imm is          27
+
+DEBUG FLORIN IMM: imm = 0000001b, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 00d
+DEBUG FLORIN INSTR: instr = 01a008ef, instr[31] = 0, instr[30:21] = 00d, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=17, rs1=0, rs2=0, imm=27, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 01a008ef
+DEBUG I ENCODE: imm_i_s=32, rd=18, rs1=23, funct3=4 -> instr=020bc903
+[L_TYPE] rd=18, rs1=23, rs2=0, imm=32, funct3=100, funct7=0, opcode=11
+my generated instruction is 020bc903
+DEBUG I ENCODE: imm_i_s=4088, rd=17, rs1=10, funct3=1 -> instr=ff851883
+[L_TYPE] rd=17, rs1=10, rs2=0, imm=-8, funct3=1, funct7=0, opcode=11
+my generated instruction is ff851883
+[R_TYPE] rd=24, rs1=9, rs2=21, imm=0, funct3=111, funct7=0, opcode=110011
+my generated instruction is 0154fc33
+on instr with the pc          64, target_idx =          7 ,my Instruction is , Imm is           7
+
+DEBUG FLORIN IMM: imm = 00000007, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 003
+DEBUG FLORIN INSTR: instr = 0060076f, instr[31] = 0, instr[30:21] = 003, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=14, rs1=0, rs2=0, imm=7, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 0060076f
+DEBUG I ENCODE: imm_i_s=15, rd=13, rs1=19, funct3=0 -> instr=00f98683
+[L_TYPE] rd=13, rs1=19, rs2=0, imm=15, funct3=0, funct7=0, opcode=11
+my generated instruction is 00f98683
+DEBUG I ENCODE: imm_i_s=16, rd=18, rs1=8, funct3=5 -> instr=01045913
+[I_TYPE] rd=18, rs1=8, rs2=0, imm=16, funct3=101, funct7=0, opcode=10011
+my generated instruction is 01045913
+[R_TYPE] rd=0, rs1=28, rs2=29, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 01de5033
+[R_TYPE] rd=30, rs1=28, rs2=24, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 018e0f33
+[R_TYPE] rd=30, rs1=27, rs2=9, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 009d8f33
+[R_TYPE] rd=3, rs1=14, rs2=23, imm=0, funct3=1, funct7=0, opcode=110011
+my generated instruction is 017711b3
+[U_TYPE] rd=31, rs1=0, rs2=0, imm=970659, funct3=0, funct7=0, opcode=10111
+my generated instruction is 000ecf97
+DEBUG I ENCODE: imm_i_s=11, rd=17, rs1=0, funct3=6 -> instr=00b06893
+[I_TYPE] rd=17, rs1=0, rs2=0, imm=11, funct3=110, funct7=0, opcode=10011
+my generated instruction is 00b06893
+DEBUG I ENCODE: imm_i_s=22, rd=0, rs1=28, funct3=5 -> instr=016e5013
+[I_TYPE] rd=0, rs1=28, rs2=0, imm=22, funct3=101, funct7=0, opcode=10011
+my generated instruction is 016e5013
+DEBUG I ENCODE: imm_i_s=36, rd=3, rs1=25, funct3=2 -> instr=024ca183
+[L_TYPE] rd=3, rs1=25, rs2=0, imm=36, funct3=10, funct7=0, opcode=11
+my generated instruction is 024ca183
+[R_TYPE] rd=6, rs1=5, rs2=5, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 0052e333
+DEBUG I ENCODE: imm_i_s=16, rd=5, rs1=7, funct3=0 -> instr=01038293
+[I_TYPE] rd=5, rs1=7, rs2=0, imm=16, funct3=0, funct7=0, opcode=10011
+my generated instruction is 01038293
+DEBUG I ENCODE: imm_i_s=21, rd=6, rs1=26, funct3=4 -> instr=015d4303
+[L_TYPE] rd=6, rs1=26, rs2=0, imm=21, funct3=100, funct7=0, opcode=11
+my generated instruction is 015d4303
+DEBUG I ENCODE: imm_i_s=8, rd=22, rs1=3, funct3=0 -> instr=00818b03
+[L_TYPE] rd=22, rs1=3, rs2=0, imm=8, funct3=0, funct7=0, opcode=11
+my generated instruction is 00818b03
+DEBUG I ENCODE: imm_i_s=46, rd=18, rs1=3, funct3=0 -> instr=02e18903
+[L_TYPE] rd=18, rs1=3, rs2=0, imm=46, funct3=0, funct7=0, opcode=11
+my generated instruction is 02e18903
+[R_TYPE] rd=25, rs1=4, rs2=7, imm=0, funct3=1, funct7=0, opcode=110011
+my generated instruction is 00721cb3
+[R_TYPE] rd=18, rs1=25, rs2=13, imm=0, funct3=111, funct7=0, opcode=110011
+my generated instruction is 00dcf933
+DEBUG I ENCODE: imm_i_s=16, rd=9, rs1=26, funct3=5 -> instr=010d5483
+[L_TYPE] rd=9, rs1=26, rs2=0, imm=16, funct3=101, funct7=0, opcode=11
+my generated instruction is 010d5483
+DEBUG I ENCODE: imm_i_s=5, rd=2, rs1=21, funct3=4 -> instr=005ac113
+[I_TYPE] rd=2, rs1=21, rs2=0, imm=5, funct3=100, funct7=0, opcode=10011
+my generated instruction is 005ac113
+[R_TYPE] rd=4, rs1=20, rs2=30, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 01ea6233
+[R_TYPE] rd=22, rs1=22, rs2=31, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 01fb0b33
+DEBUG I ENCODE: imm_i_s=5, rd=19, rs1=29, funct3=4 -> instr=005ec993
+[I_TYPE] rd=19, rs1=29, rs2=0, imm=5, funct3=100, funct7=0, opcode=10011
+my generated instruction is 005ec993
+[U_TYPE] rd=18, rs1=0, rs2=0, imm=661544, funct3=0, funct7=0, opcode=10111
+my generated instruction is 000a1917
+DEBUG I ENCODE: imm_i_s=4082, rd=13, rs1=17, funct3=5 -> instr=ff28d683
+[L_TYPE] rd=13, rs1=17, rs2=0, imm=-14, funct3=101, funct7=0, opcode=11
+my generated instruction is ff28d683
+DEBUG I ENCODE: imm_i_s=31, rd=25, rs1=15, funct3=0 -> instr=01f78c83
+[L_TYPE] rd=25, rs1=15, rs2=0, imm=31, funct3=0, funct7=0, opcode=11
+my generated instruction is 01f78c83
+DEBUG I ENCODE: imm_i_s=4090, rd=7, rs1=24, funct3=5 -> instr=ffac5383
+[L_TYPE] rd=7, rs1=24, rs2=0, imm=-6, funct3=101, funct7=0, opcode=11
+my generated instruction is ffac5383
+DEBUG I ENCODE: imm_i_s=4088, rd=31, rs1=31, funct3=2 -> instr=ff8faf83
+[L_TYPE] rd=31, rs1=31, rs2=0, imm=-8, funct3=10, funct7=0, opcode=11
+my generated instruction is ff8faf83
+DEBUG I ENCODE: imm_i_s=15, rd=20, rs1=2, funct3=7 -> instr=00f17a13
+[I_TYPE] rd=20, rs1=2, rs2=0, imm=15, funct3=111, funct7=0, opcode=10011
+my generated instruction is 00f17a13
+[R_TYPE] rd=26, rs1=11, rs2=13, imm=0, funct3=11, funct7=0, opcode=110011
+my generated instruction is 00d5bd33
+on instr with the pc         184, target_idx =         23 ,my Instruction is , Imm is          23
+
+DEBUG FLORIN IMM: imm = 00000017, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 00b
+DEBUG FLORIN INSTR: instr = 01600bef, instr[31] = 0, instr[30:21] = 00b, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=23, rs1=0, rs2=0, imm=23, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 01600bef
+on instr with the pc         188, target_idx =         29 ,my Instruction is , Imm is          29
+
+[B_TYPE] rd=0, rs1=8, rs2=25, imm=29, funct3=0, funct7=0, opcode=1100011
+my generated instruction is 01940e63
+DEBUG I ENCODE: imm_i_s=20, rd=25, rs1=14, funct3=4 -> instr=01474c93
+[I_TYPE] rd=25, rs1=14, rs2=0, imm=20, funct3=100, funct7=0, opcode=10011
+my generated instruction is 01474c93
+DEBUG I ENCODE: imm_i_s=5, rd=20, rs1=25, funct3=0 -> instr=005c8a13
+[I_TYPE] rd=20, rs1=25, rs2=0, imm=5, funct3=0, funct7=0, opcode=10011
+my generated instruction is 005c8a13
+[R_TYPE] rd=14, rs1=5, rs2=13, imm=0, funct3=10, funct7=0, opcode=110011
+my generated instruction is 00d2a733
+DEBUG I ENCODE: imm_i_s=4088, rd=17, rs1=29, funct3=5 -> instr=ff8ed883
+[L_TYPE] rd=17, rs1=29, rs2=0, imm=-8, funct3=101, funct7=0, opcode=11
+my generated instruction is ff8ed883
+DEBUG I ENCODE: imm_i_s=24, rd=3, rs1=31, funct3=5 -> instr=018fd183
+[L_TYPE] rd=3, rs1=31, rs2=0, imm=24, funct3=101, funct7=0, opcode=11
+my generated instruction is 018fd183
+DEBUG I ENCODE: imm_i_s=4085, rd=5, rs1=26, funct3=4 -> instr=ff5d4283
+[L_TYPE] rd=5, rs1=26, rs2=0, imm=-11, funct3=100, funct7=0, opcode=11
+my generated instruction is ff5d4283
+on instr with the pc         216, target_idx =         11 ,my Instruction is , Imm is          11
+
+DEBUG FLORIN IMM: imm = 0000000b, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 005
+DEBUG FLORIN INSTR: instr = 00a009ef, instr[31] = 0, instr[30:21] = 005, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=19, rs1=0, rs2=0, imm=11, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 00a009ef
+DEBUG I ENCODE: imm_i_s=18, rd=17, rs1=29, funct3=4 -> instr=012ec883
+[L_TYPE] rd=17, rs1=29, rs2=0, imm=18, funct3=100, funct7=0, opcode=11
+my generated instruction is 012ec883
+DEBUG I ENCODE: imm_i_s=13, rd=22, rs1=12, funct3=3 -> instr=00d63b13
+[I_TYPE] rd=22, rs1=12, rs2=0, imm=13, funct3=11, funct7=0, opcode=10011
+my generated instruction is 00d63b13
+DEBUG I ENCODE: imm_i_s=4092, rd=8, rs1=3, funct3=2 -> instr=ffc1a403
+[L_TYPE] rd=8, rs1=3, rs2=0, imm=-4, funct3=10, funct7=0, opcode=11
+my generated instruction is ffc1a403
+DEBUG I ENCODE: imm_i_s=22, rd=13, rs1=19, funct3=5 -> instr=0169d683
+[L_TYPE] rd=13, rs1=19, rs2=0, imm=22, funct3=101, funct7=0, opcode=11
+my generated instruction is 0169d683
+[R_TYPE] rd=0, rs1=3, rs2=10, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 00a1e033
+[S_TYPE] rd=0, rs1=0, rs2=13, imm=-1, funct3=0, funct7=0, opcode=100011
+my generated instruction is fed00fa3
+[R_TYPE] rd=8, rs1=0, rs2=13, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 00d05433
+[U_TYPE] rd=18, rs1=0, rs2=0, imm=18204, funct3=0, funct7=0, opcode=10111
+my generated instruction is 00004917
+DEBUG I ENCODE: imm_i_s=43, rd=15, rs1=26, funct3=0 -> instr=02bd0783
+[L_TYPE] rd=15, rs1=26, rs2=0, imm=43, funct3=0, funct7=0, opcode=11
+my generated instruction is 02bd0783
+on instr with the pc         256, target_idx =         14 ,my Instruction is , Imm is          14
+
+DEBUG FLORIN IMM: imm = 0000000e, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 007
+DEBUG FLORIN INSTR: instr = 00e0096f, instr[31] = 0, instr[30:21] = 007, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=18, rs1=0, rs2=0, imm=14, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 00e0096f
+DEBUG I ENCODE: imm_i_s=6, rd=17, rs1=18, funct3=2 -> instr=00692893
+[I_TYPE] rd=17, rs1=18, rs2=0, imm=6, funct3=10, funct7=0, opcode=10011
+my generated instruction is 00692893
+DEBUG I ENCODE: imm_i_s=43, rd=2, rs1=7, funct3=0 -> instr=02b38103
+[L_TYPE] rd=2, rs1=7, rs2=0, imm=43, funct3=0, funct7=0, opcode=11
+my generated instruction is 02b38103
+on instr with the pc         268, target_idx =         14 ,my Instruction is , Imm is          14
+
+DEBUG FLORIN IMM: imm = 0000000e, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 007
+DEBUG FLORIN INSTR: instr = 00e005ef, instr[31] = 0, instr[30:21] = 007, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=11, rs1=0, rs2=0, imm=14, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 00e005ef
+[R_TYPE] rd=25, rs1=12, rs2=10, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 00a60cb3
+DEBUG I ENCODE: imm_i_s=2, rd=20, rs1=18, funct3=1 -> instr=00291a03
+[L_TYPE] rd=20, rs1=18, rs2=0, imm=2, funct3=1, funct7=0, opcode=11
+my generated instruction is 00291a03
+DEBUG I ENCODE: imm_i_s=14, rd=23, rs1=30, funct3=6 -> instr=00ef6b93
+[I_TYPE] rd=23, rs1=30, rs2=0, imm=14, funct3=110, funct7=0, opcode=10011
+my generated instruction is 00ef6b93
+DEBUG I ENCODE: imm_i_s=18, rd=23, rs1=13, funct3=1 -> instr=01269b93
+[I_TYPE] rd=23, rs1=13, rs2=0, imm=18, funct3=1, funct7=0, opcode=10011
+my generated instruction is 01269b93
+on instr with the pc         288, target_idx =          3 ,my Instruction is , Imm is           3
+
+[B_TYPE] rd=0, rs1=21, rs2=28, imm=3, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 01ca9163
+DEBUG I ENCODE: imm_i_s=14, rd=8, rs1=6, funct3=6 -> instr=00e36413
+[I_TYPE] rd=8, rs1=6, rs2=0, imm=14, funct3=110, funct7=0, opcode=10011
+my generated instruction is 00e36413
+[U_TYPE] rd=9, rs1=0, rs2=0, imm=262555, funct3=0, funct7=0, opcode=10111
+my generated instruction is 00040497
+on instr with the pc         300, target_idx =         13 ,my Instruction is , Imm is          13
+
+DEBUG FLORIN IMM: imm = 0000000d, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 006
+DEBUG FLORIN INSTR: instr = 00c005ef, instr[31] = 0, instr[30:21] = 006, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=11, rs1=0, rs2=0, imm=13, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 00c005ef
+DEBUG I ENCODE: imm_i_s=4078, rd=21, rs1=1, funct3=5 -> instr=fee0da83
+[L_TYPE] rd=21, rs1=1, rs2=0, imm=-18, funct3=101, funct7=0, opcode=11
+my generated instruction is fee0da83
+on instr with the pc         308, target_idx =         22 ,my Instruction is , Imm is          22
+
+[B_TYPE] rd=0, rs1=22, rs2=28, imm=22, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 01cb1b63
+[S_TYPE] rd=0, rs1=19, rs2=24, imm=0, funct3=10, funct7=0, opcode=100011
+my generated instruction is 0189a023
+DEBUG I ENCODE: imm_i_s=10, rd=25, rs1=12, funct3=3 -> instr=00a63c93
+[I_TYPE] rd=25, rs1=12, rs2=0, imm=10, funct3=11, funct7=0, opcode=10011
+my generated instruction is 00a63c93
+DEBUG I ENCODE: imm_i_s=22, rd=4, rs1=15, funct3=1 -> instr=01679203
+[L_TYPE] rd=4, rs1=15, rs2=0, imm=22, funct3=1, funct7=0, opcode=11
+my generated instruction is 01679203
+on instr with the pc         324, target_idx =          5 ,my Instruction is , Imm is           5
+
+[B_TYPE] rd=0, rs1=6, rs2=7, imm=5, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 00731263
+DEBUG I ENCODE: imm_i_s=22, rd=25, rs1=12, funct3=0 -> instr=01660c93
+[I_TYPE] rd=25, rs1=12, rs2=0, imm=22, funct3=0, funct7=0, opcode=10011
+my generated instruction is 01660c93
+on instr with the pc         332, target_idx =          5 ,my Instruction is , Imm is           5
+
+DEBUG FLORIN IMM: imm = 00000005, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 002
+DEBUG FLORIN INSTR: instr = 004008ef, instr[31] = 0, instr[30:21] = 002, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=17, rs1=0, rs2=0, imm=5, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 004008ef
+[R_TYPE] rd=26, rs1=25, rs2=29, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 01dcdd33
+DEBUG I ENCODE: imm_i_s=4, rd=18, rs1=23, funct3=7 -> instr=004bf913
+[I_TYPE] rd=18, rs1=23, rs2=0, imm=4, funct3=111, funct7=0, opcode=10011
+my generated instruction is 004bf913
+[U_TYPE] rd=17, rs1=0, rs2=0, imm=872543, funct3=0, funct7=0, opcode=10111
+my generated instruction is 000d5897
+[R_TYPE] rd=25, rs1=12, rs2=7, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 00760cb3
+DEBUG I ENCODE: imm_i_s=4081, rd=2, rs1=6, funct3=4 -> instr=ff134103
+[L_TYPE] rd=2, rs1=6, rs2=0, imm=-15, funct3=100, funct7=0, opcode=11
+my generated instruction is ff134103
+DEBUG I ENCODE: imm_i_s=1, rd=6, rs1=20, funct3=4 -> instr=001a4303
+[L_TYPE] rd=6, rs1=20, rs2=0, imm=1, funct3=100, funct7=0, opcode=11
+my generated instruction is 001a4303
+DEBUG I ENCODE: imm_i_s=32, rd=9, rs1=28, funct3=0 -> instr=020e0483
+[L_TYPE] rd=9, rs1=28, rs2=0, imm=32, funct3=0, funct7=0, opcode=11
+my generated instruction is 020e0483
+DEBUG I ENCODE: imm_i_s=10, rd=4, rs1=18, funct3=1 -> instr=00a91203
+[L_TYPE] rd=4, rs1=18, rs2=0, imm=10, funct3=1, funct7=0, opcode=11
+my generated instruction is 00a91203
+[R_TYPE] rd=10, rs1=7, rs2=10, imm=0, funct3=1, funct7=0, opcode=110011
+my generated instruction is 00a39533
+DEBUG I ENCODE: imm_i_s=7, rd=20, rs1=26, funct3=6 -> instr=007d6a13
+[I_TYPE] rd=20, rs1=26, rs2=0, imm=7, funct3=110, funct7=0, opcode=10011
+my generated instruction is 007d6a13
+DEBUG I ENCODE: imm_i_s=24, rd=18, rs1=3, funct3=0 -> instr=01818903
+[L_TYPE] rd=18, rs1=3, rs2=0, imm=24, funct3=0, funct7=0, opcode=11
+my generated instruction is 01818903
+[R_TYPE] rd=1, rs1=9, rs2=7, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 0074d0b3
+[R_TYPE] rd=21, rs1=7, rs2=31, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 01f3dab3
+[U_TYPE] rd=6, rs1=0, rs2=0, imm=396119, funct3=0, funct7=0, opcode=10111
+my generated instruction is 00060317
+DEBUG I ENCODE: imm_i_s=16, rd=8, rs1=21, funct3=7 -> instr=010af413
+[I_TYPE] rd=8, rs1=21, rs2=0, imm=16, funct3=111, funct7=0, opcode=10011
+my generated instruction is 010af413
+DEBUG I ENCODE: imm_i_s=5, rd=5, rs1=19, funct3=3 -> instr=0059b293
+[I_TYPE] rd=5, rs1=19, rs2=0, imm=5, funct3=11, funct7=0, opcode=10011
+my generated instruction is 0059b293
+[R_TYPE] rd=14, rs1=11, rs2=6, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 00658733
+[R_TYPE] rd=29, rs1=27, rs2=21, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 015ddeb3
+DEBUG I ENCODE: imm_i_s=42, rd=16, rs1=28, funct3=5 -> instr=02ae5803
+[L_TYPE] rd=16, rs1=28, rs2=0, imm=42, funct3=101, funct7=0, opcode=11
+my generated instruction is 02ae5803
+DEBUG I ENCODE: imm_i_s=40, rd=22, rs1=27, funct3=4 -> instr=028dcb03
+[L_TYPE] rd=22, rs1=27, rs2=0, imm=40, funct3=100, funct7=0, opcode=11
+my generated instruction is 028dcb03
+DEBUG I ENCODE: imm_i_s=19, rd=7, rs1=25, funct3=0 -> instr=013c8393
+[I_TYPE] rd=7, rs1=25, rs2=0, imm=19, funct3=0, funct7=0, opcode=10011
+my generated instruction is 013c8393
+DEBUG I ENCODE: imm_i_s=36, rd=31, rs1=2, funct3=4 -> instr=02414f83
+[L_TYPE] rd=31, rs1=2, rs2=0, imm=36, funct3=100, funct7=0, opcode=11
+my generated instruction is 02414f83
+[R_TYPE] rd=28, rs1=3, rs2=14, imm=0, funct3=11, funct7=0, opcode=110011
+my generated instruction is 00e1be33
+[S_TYPE] rd=0, rs1=22, rs2=15, imm=0, funct3=10, funct7=0, opcode=100011
+my generated instruction is 00fb2023
+DEBUG I ENCODE: imm_i_s=15, rd=5, rs1=20, funct3=7 -> instr=00fa7293
+[I_TYPE] rd=5, rs1=20, rs2=0, imm=15, funct3=111, funct7=0, opcode=10011
+my generated instruction is 00fa7293
+DEBUG I ENCODE: imm_i_s=0, rd=25, rs1=31, funct3=3 -> instr=000fbc93
+[I_TYPE] rd=25, rs1=31, rs2=0, imm=0, funct3=11, funct7=0, opcode=10011
+my generated instruction is 000fbc93
+[R_TYPE] rd=26, rs1=14, rs2=17, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 01175d33
+DEBUG I ENCODE: imm_i_s=11, rd=11, rs1=5, funct3=4 -> instr=00b2c593
+[I_TYPE] rd=11, rs1=5, rs2=0, imm=11, funct3=100, funct7=0, opcode=10011
+my generated instruction is 00b2c593
+DEBUG I ENCODE: imm_i_s=4084, rd=24, rs1=17, funct3=2 -> instr=ff48ac03
+[L_TYPE] rd=24, rs1=17, rs2=0, imm=-12, funct3=10, funct7=0, opcode=11
+my generated instruction is ff48ac03
+[R_TYPE] rd=8, rs1=14, rs2=13, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 00d75433
+DEBUG I ENCODE: imm_i_s=21, rd=23, rs1=3, funct3=2 -> instr=0151ab93
+[I_TYPE] rd=23, rs1=3, rs2=0, imm=21, funct3=10, funct7=0, opcode=10011
+my generated instruction is 0151ab93
+DEBUG I ENCODE: imm_i_s=18, rd=13, rs1=7, funct3=1 -> instr=01239693
+[I_TYPE] rd=13, rs1=7, rs2=0, imm=18, funct3=1, funct7=0, opcode=10011
+my generated instruction is 01239693
+on instr with the pc         464, target_idx =         25 ,my Instruction is , Imm is          25
+
+[B_TYPE] rd=0, rs1=12, rs2=0, imm=25, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 00061c63
+[S_TYPE] rd=0, rs1=23, rs2=15, imm=0, funct3=1, funct7=0, opcode=100011
+my generated instruction is 00fb9023
+[R_TYPE] rd=22, rs1=13, rs2=23, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 0176db33
+[R_TYPE] rd=13, rs1=25, rs2=8, imm=0, funct3=0, funct7=0, opcode=110011
+my generated instruction is 008c86b3
+DEBUG I ENCODE: imm_i_s=28, rd=30, rs1=16, funct3=2 -> instr=01c82f03
+[L_TYPE] rd=30, rs1=16, rs2=0, imm=28, funct3=10, funct7=0, opcode=11
+my generated instruction is 01c82f03
+DEBUG I ENCODE: imm_i_s=30, rd=18, rs1=13, funct3=1 -> instr=01e69903
+[L_TYPE] rd=18, rs1=13, rs2=0, imm=30, funct3=1, funct7=0, opcode=11
+my generated instruction is 01e69903
+DEBUG I ENCODE: imm_i_s=24, rd=3, rs1=27, funct3=2 -> instr=018da183
+[L_TYPE] rd=3, rs1=27, rs2=0, imm=24, funct3=10, funct7=0, opcode=11
+my generated instruction is 018da183
+[R_TYPE] rd=19, rs1=16, rs2=30, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 01e869b3
+DEBUG I ENCODE: imm_i_s=3, rd=13, rs1=14, funct3=4 -> instr=00374693
+[I_TYPE] rd=13, rs1=14, rs2=0, imm=3, funct3=100, funct7=0, opcode=10011
+my generated instruction is 00374693
+on instr with the pc         500, target_idx =         27 ,my Instruction is , Imm is          27
+
+DEBUG FLORIN IMM: imm = 0000001b, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 00d
+DEBUG FLORIN INSTR: instr = 01a00a6f, instr[31] = 0, instr[30:21] = 00d, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=20, rs1=0, rs2=0, imm=27, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 01a00a6f
+[R_TYPE] rd=26, rs1=19, rs2=4, imm=0, funct3=100, funct7=0, opcode=110011
+my generated instruction is 0049cd33
+[R_TYPE] rd=28, rs1=12, rs2=30, imm=0, funct3=10, funct7=0, opcode=110011
+my generated instruction is 01e62e33
+[R_TYPE] rd=10, rs1=23, rs2=18, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 012be533
+[U_TYPE] rd=14, rs1=0, rs2=0, imm=154221, funct3=0, funct7=0, opcode=10111
+my generated instruction is 00025717
+[U_TYPE] rd=7, rs1=0, rs2=0, imm=990583, funct3=0, funct7=0, opcode=10111
+my generated instruction is 000f1397
+[R_TYPE] rd=16, rs1=18, rs2=15, imm=0, funct3=10, funct7=0, opcode=110011
+my generated instruction is 00f92833
+DEBUG I ENCODE: imm_i_s=44, rd=7, rs1=1, funct3=2 -> instr=02c0a383
+[L_TYPE] rd=7, rs1=1, rs2=0, imm=44, funct3=10, funct7=0, opcode=11
+my generated instruction is 02c0a383
+DEBUG I ENCODE: imm_i_s=6, rd=16, rs1=4, funct3=5 -> instr=00625803
+[L_TYPE] rd=16, rs1=4, rs2=0, imm=6, funct3=101, funct7=0, opcode=11
+my generated instruction is 00625803
+DEBUG I ENCODE: imm_i_s=19, rd=16, rs1=10, funct3=0 -> instr=01350813
+[I_TYPE] rd=16, rs1=10, rs2=0, imm=19, funct3=0, funct7=0, opcode=10011
+my generated instruction is 01350813
+DEBUG I ENCODE: imm_i_s=4, rd=16, rs1=17, funct3=5 -> instr=0048d803
+[L_TYPE] rd=16, rs1=17, rs2=0, imm=4, funct3=101, funct7=0, opcode=11
+my generated instruction is 0048d803
+DEBUG I ENCODE: imm_i_s=10, rd=23, rs1=25, funct3=4 -> instr=00accb93
+[I_TYPE] rd=23, rs1=25, rs2=0, imm=10, funct3=100, funct7=0, opcode=10011
+my generated instruction is 00accb93
+[R_TYPE] rd=12, rs1=11, rs2=12, imm=0, funct3=100, funct7=0, opcode=110011
+my generated instruction is 00c5c633
+DEBUG I ENCODE: imm_i_s=5, rd=0, rs1=19, funct3=5 -> instr=0059d013
+[I_TYPE] rd=0, rs1=19, rs2=0, imm=5, funct3=101, funct7=0, opcode=10011
+my generated instruction is 0059d013
+[S_TYPE] rd=0, rs1=19, rs2=7, imm=6, funct3=1, funct7=0, opcode=100011
+my generated instruction is 00799323
+[U_TYPE] rd=2, rs1=0, rs2=0, imm=877478, funct3=0, funct7=0, opcode=10111
+my generated instruction is 000d6117
+DEBUG I ENCODE: imm_i_s=20, rd=11, rs1=10, funct3=6 -> instr=01456593
+[I_TYPE] rd=11, rs1=10, rs2=0, imm=20, funct3=110, funct7=0, opcode=10011
+my generated instruction is 01456593
+DEBUG I ENCODE: imm_i_s=8, rd=12, rs1=6, funct3=2 -> instr=00832603
+[L_TYPE] rd=12, rs1=6, rs2=0, imm=8, funct3=10, funct7=0, opcode=11
+my generated instruction is 00832603
+[R_TYPE] rd=3, rs1=16, rs2=30, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 01e861b3
+DEBUG I ENCODE: imm_i_s=6, rd=14, rs1=10, funct3=0 -> instr=00650713
+[I_TYPE] rd=14, rs1=10, rs2=0, imm=6, funct3=0, funct7=0, opcode=10011
+my generated instruction is 00650713
+on instr with the pc         580, target_idx =         13 ,my Instruction is , Imm is          13
+
+[B_TYPE] rd=0, rs1=0, rs2=25, imm=13, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 01901663
+[R_TYPE] rd=1, rs1=13, rs2=6, imm=0, funct3=100, funct7=0, opcode=110011
+my generated instruction is 0066c0b3
+on instr with the pc         588, target_idx =          6 ,my Instruction is , Imm is           6
+
+DEBUG FLORIN IMM: imm = 00000006, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 003
+DEBUG FLORIN INSTR: instr = 00600f6f, instr[31] = 0, instr[30:21] = 003, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=30, rs1=0, rs2=0, imm=6, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 00600f6f
+DEBUG I ENCODE: imm_i_s=11, rd=3, rs1=15, funct3=7 -> instr=00b7f193
+[I_TYPE] rd=3, rs1=15, rs2=0, imm=11, funct3=111, funct7=0, opcode=10011
+my generated instruction is 00b7f193
+DEBUG I ENCODE: imm_i_s=4078, rd=11, rs1=1, funct3=5 -> instr=fee0d583
+[L_TYPE] rd=11, rs1=1, rs2=0, imm=-18, funct3=101, funct7=0, opcode=11
+my generated instruction is fee0d583
+DEBUG I ENCODE: imm_i_s=4088, rd=13, rs1=1, funct3=5 -> instr=ff80d683
+[L_TYPE] rd=13, rs1=1, rs2=0, imm=-8, funct3=101, funct7=0, opcode=11
+my generated instruction is ff80d683
+DEBUG I ENCODE: imm_i_s=0, rd=21, rs1=18, funct3=2 -> instr=00092a93
+[I_TYPE] rd=21, rs1=18, rs2=0, imm=0, funct3=10, funct7=0, opcode=10011
+my generated instruction is 00092a93
+[U_TYPE] rd=15, rs1=0, rs2=0, imm=712916, funct3=0, funct7=0, opcode=10111
+my generated instruction is 000ae797
+DEBUG I ENCODE: imm_i_s=3, rd=13, rs1=23, funct3=5 -> instr=003bd693
+[I_TYPE] rd=13, rs1=23, rs2=0, imm=3, funct3=101, funct7=0, opcode=10011
+my generated instruction is 003bd693
+DEBUG I ENCODE: imm_i_s=20, rd=24, rs1=1, funct3=4 -> instr=0140cc13
+[I_TYPE] rd=24, rs1=1, rs2=0, imm=20, funct3=100, funct7=0, opcode=10011
+my generated instruction is 0140cc13
+on instr with the pc         620, target_idx =         25 ,my Instruction is , Imm is          25
+
+[B_TYPE] rd=0, rs1=19, rs2=12, imm=25, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 00c99c63
+DEBUG I ENCODE: imm_i_s=36, rd=31, rs1=0, funct3=4 -> instr=02404f83
+[L_TYPE] rd=31, rs1=0, rs2=0, imm=36, funct3=100, funct7=0, opcode=11
+my generated instruction is 02404f83
+DEBUG I ENCODE: imm_i_s=21, rd=1, rs1=16, funct3=5 -> instr=01585093
+[I_TYPE] rd=1, rs1=16, rs2=0, imm=21, funct3=101, funct7=0, opcode=10011
+my generated instruction is 01585093
+[S_TYPE] rd=0, rs1=24, rs2=24, imm=4, funct3=0, funct7=0, opcode=100011
+my generated instruction is 018c0223
+on instr with the pc         636, target_idx =          9 ,my Instruction is , Imm is           9
+
+[B_TYPE] rd=0, rs1=30, rs2=25, imm=9, funct3=0, funct7=0, opcode=1100011
+my generated instruction is 019f0463
+[S_TYPE] rd=0, rs1=30, rs2=21, imm=0, funct3=10, funct7=0, opcode=100011
+my generated instruction is 015f2023
+[S_TYPE] rd=0, rs1=13, rs2=16, imm=2, funct3=1, funct7=0, opcode=100011
+my generated instruction is 01069123
+DEBUG I ENCODE: imm_i_s=42, rd=10, rs1=8, funct3=5 -> instr=02a45503
+[L_TYPE] rd=10, rs1=8, rs2=0, imm=42, funct3=101, funct7=0, opcode=11
+my generated instruction is 02a45503
+DEBUG I ENCODE: imm_i_s=3, rd=10, rs1=18, funct3=4 -> instr=00394513
+[I_TYPE] rd=10, rs1=18, rs2=0, imm=3, funct3=100, funct7=0, opcode=10011
+my generated instruction is 00394513
+[R_TYPE] rd=29, rs1=6, rs2=25, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 01936eb3
+DEBUG I ENCODE: imm_i_s=15, rd=6, rs1=25, funct3=2 -> instr=00fca313
+[I_TYPE] rd=6, rs1=25, rs2=0, imm=15, funct3=10, funct7=0, opcode=10011
+my generated instruction is 00fca313
+[S_TYPE] rd=0, rs1=31, rs2=2, imm=0, funct3=0, funct7=0, opcode=100011
+my generated instruction is 002f8023
+[S_TYPE] rd=0, rs1=1, rs2=21, imm=4, funct3=10, funct7=0, opcode=100011
+my generated instruction is 0150a223
+DEBUG I ENCODE: imm_i_s=42, rd=13, rs1=22, funct3=4 -> instr=02ab4683
+[L_TYPE] rd=13, rs1=22, rs2=0, imm=42, funct3=100, funct7=0, opcode=11
+my generated instruction is 02ab4683
+[R_TYPE] rd=4, rs1=20, rs2=30, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 01ea5233
+[R_TYPE] rd=9, rs1=27, rs2=16, imm=0, funct3=110, funct7=0, opcode=110011
+my generated instruction is 010de4b3
+DEBUG I ENCODE: imm_i_s=20, rd=7, rs1=7, funct3=5 -> instr=0143d393
+[I_TYPE] rd=7, rs1=7, rs2=0, imm=20, funct3=101, funct7=0, opcode=10011
+my generated instruction is 0143d393
+DEBUG I ENCODE: imm_i_s=2, rd=5, rs1=8, funct3=7 -> instr=00247293
+[I_TYPE] rd=5, rs1=8, rs2=0, imm=2, funct3=111, funct7=0, opcode=10011
+my generated instruction is 00247293
+DEBUG I ENCODE: imm_i_s=16, rd=13, rs1=16, funct3=4 -> instr=01084683
+[L_TYPE] rd=13, rs1=16, rs2=0, imm=16, funct3=100, funct7=0, opcode=11
+my generated instruction is 01084683
+[R_TYPE] rd=20, rs1=18, rs2=6, imm=0, funct3=111, funct7=0, opcode=110011
+my generated instruction is 00697a33
+[R_TYPE] rd=24, rs1=16, rs2=7, imm=0, funct3=10, funct7=0, opcode=110011
+my generated instruction is 00782c33
+DEBUG I ENCODE: imm_i_s=17, rd=1, rs1=23, funct3=1 -> instr=011b9093
+[I_TYPE] rd=1, rs1=23, rs2=0, imm=17, funct3=1, funct7=0, opcode=10011
+my generated instruction is 011b9093
+[S_TYPE] rd=0, rs1=12, rs2=15, imm=0, funct3=10, funct7=0, opcode=100011
+my generated instruction is 00f62023
+[S_TYPE] rd=0, rs1=17, rs2=15, imm=4, funct3=10, funct7=0, opcode=100011
+my generated instruction is 00f8a223
+DEBUG I ENCODE: imm_i_s=44, rd=22, rs1=3, funct3=2 -> instr=02c1ab03
+[L_TYPE] rd=22, rs1=3, rs2=0, imm=44, funct3=10, funct7=0, opcode=11
+my generated instruction is 02c1ab03
+[R_TYPE] rd=28, rs1=19, rs2=28, imm=0, funct3=100, funct7=0, opcode=110011
+my generated instruction is 01c9ce33
+on instr with the pc         724, target_idx =         15 ,my Instruction is , Imm is          15
+
+[B_TYPE] rd=0, rs1=23, rs2=2, imm=15, funct3=1, funct7=0, opcode=1100011
+my generated instruction is 002b9763
+[U_TYPE] rd=8, rs1=0, rs2=0, imm=251682, funct3=0, funct7=0, opcode=10111
+my generated instruction is 0003d417
+[U_TYPE] rd=10, rs1=0, rs2=0, imm=195054, funct3=0, funct7=0, opcode=10111
+my generated instruction is 0002f517
+on instr with the pc         736, target_idx =          7 ,my Instruction is , Imm is           7
+
+DEBUG FLORIN IMM: imm = 00000007, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 003
+DEBUG FLORIN INSTR: instr = 0060056f, instr[31] = 0, instr[30:21] = 003, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=10, rs1=0, rs2=0, imm=7, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 0060056f
+DEBUG I ENCODE: imm_i_s=4, rd=20, rs1=17, funct3=5 -> instr=0048da03
+[L_TYPE] rd=20, rs1=17, rs2=0, imm=4, funct3=101, funct7=0, opcode=11
+my generated instruction is 0048da03
+on instr with the pc         744, target_idx =         22 ,my Instruction is , Imm is          22
+
+DEBUG FLORIN IMM: imm = 00000016, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 00b
+DEBUG FLORIN INSTR: instr = 0160096f, instr[31] = 0, instr[30:21] = 00b, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=18, rs1=0, rs2=0, imm=22, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 0160096f
+[R_TYPE] rd=29, rs1=22, rs2=18, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 012b5eb3
+[R_TYPE] rd=13, rs1=15, rs2=18, imm=0, funct3=101, funct7=0, opcode=110011
+my generated instruction is 0127d6b3
+DEBUG I ENCODE: imm_i_s=12, rd=15, rs1=9, funct3=7 -> instr=00c4f793
+[I_TYPE] rd=15, rs1=9, rs2=0, imm=12, funct3=111, funct7=0, opcode=10011
+my generated instruction is 00c4f793
+DEBUG I ENCODE: imm_i_s=13, rd=8, rs1=12, funct3=1 -> instr=00d61413
+[I_TYPE] rd=8, rs1=12, rs2=0, imm=13, funct3=1, funct7=0, opcode=10011
+my generated instruction is 00d61413
+DEBUG I ENCODE: imm_i_s=10, rd=23, rs1=13, funct3=1 -> instr=00a69b83
+[L_TYPE] rd=23, rs1=13, rs2=0, imm=10, funct3=1, funct7=0, opcode=11
+my generated instruction is 00a69b83
+[S_TYPE] rd=0, rs1=17, rs2=9, imm=0, funct3=10, funct7=0, opcode=100011
+my generated instruction is 0098a023
+on instr with the pc         772, target_idx =         11 ,my Instruction is , Imm is          11
+
+DEBUG FLORIN IMM: imm = 0000000b, imm[20] = 0, imm[19:12] = 00, imm[11] =0, imm[10:1] = 005
+DEBUG FLORIN INSTR: instr = 00a00a6f, instr[31] = 0, instr[30:21] = 005, instr[20] =0, instr[19:12] = 00
+[J_TYPE] rd=20, rs1=0, rs2=0, imm=11, funct3=0, funct7=0, opcode=1101111
+my generated instruction is 00a00a6f
+DEBUG I ENCODE: imm_i_s=4077, rd=2, rs1=17, funct3=4 -> instr=fed8c103
+[L_TYPE] rd=2, rs1=17, rs2=0, imm=-19, funct3=100, funct7=0, opcode=11
+my generated instruction is fed8c103
+[S_TYPE] rd=0, rs1=4, rs2=10, imm=4, funct3=10, funct7=0, opcode=100011
+my generated instruction is 00a22223
+DEBUG I ENCODE: imm_i_s=21, rd=21, rs1=19, funct3=6 -> instr=0159ea93
+[I_TYPE] rd=21, rs1=19, rs2=0, imm=21, funct3=110, funct7=0, opcode=10011
+my generated instruction is 0159ea93
+[R_TYPE] rd=8, rs1=9, rs2=21, imm=0, funct3=11, funct7=0, opcode=110011
+my generated instruction is 0154b433
+DEBUG I ENCODE: imm_i_s=42, rd=23, rs1=24, funct3=5 -> instr=02ac5b83
+[L_TYPE] rd=23, rs1=24, rs2=0, imm=42, funct3=101, funct7=0, opcode=11
+my generated instruction is 02ac5b83
+DEBUG I ENCODE: imm_i_s=16, rd=22, rs1=17, funct3=5 -> instr=0108db13
+[I_TYPE] rd=22, rs1=17, rs2=0, imm=16, funct3=101, funct7=0, opcode=10011
+my generated instruction is 0108db13
+*Verdi* Loading libsscore_vcs202409.so
+FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2-5, Linux, 09/10/2025
+(C) 1996 - 2025 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'inter.fsdb'
+*Verdi* : Begin traversing the scopes, layer (0).
+*Verdi* : End of traversing.
+Test done!
+
+$finish called from file "../tb/tests/evolved_tb.sv", line 522.
+$finish at simulation time             10000000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 10000000 ps
+CPU Time:      0.4cc
+ 
+Error-[UCLI-008] Flag specification incomplete
+  Flag '-object' must be used with the following: "constraints change".
+  Please enter 'constraints change -help' to see valid command flags.
+
+An unexpected termination has occurred in ./simv due to a signal: Segmentation fault
+Hostname atletx8-reg017
+
+
+Command line: ./simv +vcs+vcdpluson +testname=general +ntb_random_seed=1 -l build_and_test.log
+
+
+--- Stack trace follows:
+No context available
+
+ 
