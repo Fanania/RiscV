@@ -4,7 +4,6 @@ module EXECUTE_INSTR (
   output reg [`DATA_WIDTH-1:0] EXE_AluResult,
   output reg                   EXE_Overflow,
   output reg   [`PC_WIDTH-1:0] EXE_Pc,
-  output reg                   EXE_ZeroFlag,
   output reg                   EXE_RegWrite,
   output reg                   EXE_MemWriteEn,
   output reg [`DATA_WIDTH-1:0] EXE_WriteData,
@@ -14,6 +13,7 @@ module EXECUTE_INSTR (
   output                       EXE_PcSrc,                     // Control the Pc mux in IF
   output       [`PC_WIDTH-1:0] EXE_PcTgt,                     // Branch/Jump calculated PC
   output reg                   EXE_UnsignedFlag,
+  output  [`HWA_EXE_WIDTH-1:0] EXE_Hwa,
 
   input                        ID_UnsignedFlag,
   input        [`PC_WIDTH-1:0] ID_Pc,
@@ -26,6 +26,7 @@ module EXECUTE_INSTR (
   input                        ID_MemWriteEn,
   input                        ID_Jump,
   input                        ID_Branch,
+  input                        Flush,      
   input                  [3:0] ID_LoadStoreCtrl,
   input      [`DATA_WIDTH-1:0] WB_Result,                     // Used as alu input if there is wb.rd == exe.rs situation 
   input        [`ADDR_IDX-1:0] ID_Rdest,                      // here we are writing the result
@@ -49,6 +50,7 @@ module EXECUTE_INSTR (
   reg                         BranchOk;
   reg  [`DATA_WIDTH     -1:0] AluResult;
   wire                        ClkEn;
+  wire                        Hwa;
   reg  [1:0]                  Sign;
 
   assign ClkEn                    = 1'b1;   // Set it unconditionally to 1 for now
@@ -107,7 +109,7 @@ module EXECUTE_INSTR (
                                                                                  ^ (|Sign[1:0]))                                                  // Just rvert the slt result whenever there is a negative number in A or B
                                ;
     // Calculate Overflow. The only commands which can trigger Overflow it will be add and sub
-   Overflow = (IsAdd | IsSub) & ~(SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]) 
+    Overflow = (IsAdd | IsSub) & ~(SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]) 
        //      | (IsSub &  (SrcA[31] ^ SrcB[31]) & (SrcA[31] ^ AluResult[31]))
              ;
     IsBgeOk = ((ID_AluControl[3:0] == `ALU_BGE) // if bge
@@ -123,13 +125,22 @@ module EXECUTE_INSTR (
              |  (ID_AluControl[3:0] == `ALU_BGE) & ~Overflow      // if bge and not overflow that means the sub instr had an positive output
              ;
   end
-
+  // In store cases; the actaul addr needs to be lower than the limits of the addr. 
+  // For example sw x1 offset(x2);
+  //   where: x1=x2=0; and the calculated offset is -32. that translates to 4 GB. Can't address this zone.
+  assign Hwa = ID_LoadStoreCtrl[3]                        // Load store indicator
+             & AluResult[`DATA_WIDTH-1:`RAM_ADDR_MSB+1]   // The resulting addr can't be bigger than the max addr. NO negative results
+             ;
+  assign EXE_Hwa[`HWA_EXE_WIDTH-1:0] = {                  // Add new entries on top
+                                        7'h0,             // Reserved bits
+                                        Hwa               // Mem Addr miscalculation.
+                                       }
+                                     ;
   always @(posedge clk) begin
-    if (rst) begin
+    if (rst | Flush) begin
       EXE_AluResult[`DATA_WIDTH  -1:0] <= `DATA_WIDTH'h0;
       EXE_Overflow                     <= 1'b0;
       EXE_Pc       [`PC_WIDTH    -1:0] <= `PC_WIDTH'h0;
-      EXE_ZeroFlag                     <= 1'b0;
       EXE_RegWrite                     <= 1'b0;
       EXE_MemWriteEn                   <= 1'b0;
       EXE_WriteData[`DATA_WIDTH  -1:0] <= `DATA_WIDTH'h0; 
@@ -141,7 +152,6 @@ module EXECUTE_INSTR (
       EXE_AluResult[`DATA_WIDTH  -1:0] <= AluResult[`DATA_WIDTH-1:0];
       EXE_Overflow                     <= Overflow;
       EXE_Pc       [`PC_WIDTH    -1:0] <= ID_Pc[`PC_WIDTH-1:0];
-      EXE_ZeroFlag                     <= ZeroFlag;   
       EXE_RegWrite                     <= ID_RegWrite;
       EXE_MemWriteEn                   <= ID_MemWriteEn;
       EXE_WriteData[`DATA_WIDTH  -1:0] <= ID_Rd2[`DATA_WIDTH-1:0];
@@ -153,7 +163,6 @@ module EXECUTE_INSTR (
       EXE_AluResult[`DATA_WIDTH  -1:0] <= EXE_AluResult[`DATA_WIDTH-1:0];
       EXE_Overflow                     <= EXE_Overflow;
       EXE_Pc       [`PC_WIDTH    -1:0] <= EXE_Pc[`PC_WIDTH-1:0];
-      EXE_ZeroFlag                     <= EXE_ZeroFlag;
       EXE_RegWrite                     <= EXE_RegWrite;
       EXE_MemWriteEn                   <= EXE_MemWriteEn;
       EXE_WriteData[`DATA_WIDTH  -1:0] <= EXE_WriteData[`DATA_WIDTH-1:0];
@@ -165,5 +174,5 @@ module EXECUTE_INSTR (
   end
 
 assign EXE_PcSrc = ID_Jump | (ID_Branch & BranchOk);
-assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];
+assign EXE_PcTgt[`PC_WIDTH-1:0] = ID_Pc[`PC_WIDTH-1:0] + ID_ImmIn[`PC_WIDTH-1:0];  // For Branches will add the 12 bit (extended) Imm and for J will add teh 20 bits (2 Bytes) Imm
 endmodule
