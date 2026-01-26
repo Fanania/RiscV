@@ -2,40 +2,32 @@
 //                   Defines used on all files
 //----------------------------------------------------------------------
 
-`define ADDR_WIDTH         32
-`define ADDR_IDX            5
-`define INSTR_WIDTH        32
-`define DATA_WIDTH         32
-`define PC_WIDTH           32
-`define BYTES_ALLIGN_RANGE 6:2
-`define CU_WIDTH            5
-`define BYTES_NR            4
-`define HWA_WIDTH          32
-// HARDWARE ASSERT defines
-`define HWA_HU_WIDTH        1
-`define HWA_HU_RANGE    29:29
-`define HWA_MEM_WIDTH       8
-`define HWA_MEM_RANGE   28:21
-`define HWA_EXE_WIDTH       8
-`define HWA_EXE_RANGE   20:14
-`define HWA_ID_WIDTH        8
-`define HWA_ID_RANGE     13:8
-`define HWA_IF_WIDTH        8
-`define HWA_IF_RANGE      7:0
+`define ADDR_WIDTH          32
+`define ADDR_IDX             5
+`define INSTR_WIDTH         32
+`define DATA_WIDTH          32
+`define PC_WIDTH            32
+`define CU_WIDTH             5
+`define BYTES_NR             4
+`define HWA_WIDTH           32
 
 //----------------------------------------------------------------------
 //                   Defines used Fetch stage
 //----------------------------------------------------------------------
 `define PC_INCR             4
 `define INSTR_DEPTH        200
+`define IMEM_IDX           $clog2(`INSTR_DEPTH)
+`define BYTES_ALLIGN_RANGE 2+`IMEM_IDX-1:2
 //----------------------------------------------------------------------
 //                   Defines used Decode stage
 //----------------------------------------------------------------------
 // Instruction Encoding
-`define FUNCT7_RANGE     31:25       // FUNCT3
+`define FUNCT7_RANGE     31:25       // FUNCT7
 `define RS2_RANGE        24:20       // Source register 2 range in R-type
 `define RS1_RANGE        19:15       // Source register 1 range in R-type
-`define FUNCT3_RANGE     14:12       // FUNCT7
+`define FUNCT3_RANGE     14:12       // FUNCT3
+`define FUNCT3_MSB          14
+`define FUNCT3_LSB          12
 `define RD_RANGE          11:7       // Destination register range in R-type
 `define OPCODE_RANGE       6:0       // Opcode range
 // IMM subfields
@@ -56,12 +48,12 @@
 // ALU CONTROLLER
 `define CMD_WIDTH            5
 // Semanlele ce vor controla ALU
-`define CMD_ADD           5'b00001
+`define CMD_ADD           5'b00001   // ADDI & ADD
 `define CMD_SUB           5'b00010
-`define CMD_AND           5'b00011
-`define CMD_NAND          5'b00100   // do not exists
+`define CMD_AND           5'b00011   // AND & ANDI 
+`define CMD_JALR          5'b00100
 `define CMD_OR            5'b00101
-`define CMD_NOR           5'b00110   // do not exists
+`define CMD_J             5'b00110
 `define CMD_XOR           5'b00111
 `define CMD_MULT          5'b01000  
 `define CMD_SLL           5'b01001
@@ -117,7 +109,7 @@
 `define OP_LOAD_UPPER_I   7'b0110111     // Load upper immediate. dec 55
 `define OP_BRANCH         7'b1100011     // Branch. dec 99
 `define OP_JUMP_LINK_I    7'b1100111     // Jump and link register. PC = rs1 + SignExt(imm), rd = PC + 4
-`define OP_JUMP_LINK_J    7'b1111111     // Jump and link PC = JTA, rd = PC + 4
+`define OP_JUMP_LINK_J    7'b1101111     // Jump and link PC = JTA, rd = PC + 4
 
 `define INSTR_TYPE_WIDTH  3              // Instruction Decoded Types
 `define N_INSTR           3'b000         // NOP
@@ -133,6 +125,7 @@
 //                   MEM stage defines
 //----------------------------------------------------------------------
 `define RAM_ALLIGN_RANGE 9:2
+`define RAM_ADDR_MSB       9
 `define DATA_MASK_BYTE     8
 `define DATA_MASK_HALF    16
 
@@ -151,9 +144,48 @@
 `define  MEM      2        // Forward the data from mem stage 
 `define  RSVD     3        // Rsvd. Illegal value for now
 `define  NORMAL   0        // Normal behaviour. Just take the data from srcA and srcB 
+
+//----------------------------------------------------------------------
+//                   Hardware assert bus defines
+//----------------------------------------------------------------------
+// Priority encoding of the Interrupts
+
+`define HWA_MSB                31
+`define HWA_WIDTH              32 
+`define HWA_ID_WIDTH            8  // ID and CU Interrupts
+`define HWA_ID_RANGE        31:24
+`define HWA_INVLD_OP     `HWA_MSB  // biggest priority
+`define HWA_INVLD_FCT3 `HWA_MSB-1
+`define HWA_INVLD_FCT7 `HWA_MSB-2
+`define HWA_MEM_WIDTH           7  // MEM  Interrupts
+`define HWA_MEM_RANGE       23:17
+`define HWA_EXE_WIDTH           8 // EXE  Interrupts
+`define HWA_EXE_RANGE        16:9
+`define HWA_HU_WIDTH            1
+`define HWA_HU_RANGE          8:8
+`define HWA_IF_WIDTH            8
+`define HWA_IF_RANGE          7:0
+//----------------------------------------------------------------------
+//                   Branch Predictor Defines
+//----------------------------------------------------------------------
+`define BPB_ENABLE          1                                      // Branch predictor enable
+`define BRANCH_ST_DEFAULT   2'b01
+`define BPS_WIDTH           2                                      // Branch Predictor State width
+`define BPT_WIDTH          `PC_WIDTH                               // Branch Predictor Target width
+`define BPB_WIDTH          `BPS_WIDTH  +`BPT_WIDTH                 // Branch Predictor Buffer width
+`define BPS_RANGE          `BPB_WIDTH-1:`BPB_WIDTH-`BPS_WIDTH      // The state is in the upper 2 bits of the buffer
+`define BPT_RANGE         (`BPB_WIDTH  -`BPS_WIDTH)-1:0            // The targeted pc (addr) 
+
 //----------------------------------------------------------------------
 //                   Used on simulation
 //----------------------------------------------------------------------
 
 `define SIMULATION_ON 1
+
+//----------------------------------------------------------------------
+//                   Variant Specific
+//----------------------------------------------------------------------
+
+`define VARIANT_RV32I_PRESENT 1    // Used to guard non- base rvi32 implementations
+`define C_EXTENSION_ON        1    // Used to guard compressed instr extesion logic (like 2Byte alligned jumps)
 
