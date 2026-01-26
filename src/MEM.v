@@ -1,5 +1,5 @@
 `include "/home/fananiae/disertatie_Anania/src/defines.v"
-  module LoadStore (
+  module LOAD_STORE (
     output reg [`DATA_WIDTH-1:0] DataMasked,
     output reg             [1:0] Hwa,           // Hardware warning flags: [1] = word misalign, [0] = half misalign
     input                        MemWriteEn,    // 1 for writes
@@ -123,10 +123,12 @@
     output reg     [`PC_WIDTH-1:0] MEM_Pc,
     output reg     [`ADDR_IDX-1:0] MEM_Rdest,            // here we are writing the result
     output reg               [1:0] MEM_ResultSrc,        // Control the WB mux (ID_ResultSrc flopped)
+    output       [`DATA_WIDTH-1:0] DataMasked,
     output    [`HWA_MEM_WIDTH-1:0] MEM_Hwa,              // Hardware Assert Bus which triggers an interruption
 
     input                          clk,
-    input                          rst, 
+    input                          rst,
+    input        [`DATA_WIDTH-1:0] RdData,
     input          [`PC_WIDTH-1:0] EXE_Pc,
     input                          EXE_RegWrite,
     input                          EXE_MemWriteEn,
@@ -138,51 +140,28 @@
     input                    [1:0] EXE_ResultSrc         // Control the WB mux
  );
 
-    reg             [31:0] data_mem [0:255];
-    wire [`DATA_WIDTH-1:0] RdData;           // raw and unmasked Data
     wire [`DATA_WIDTH-1:0] ReadDataOut;      // final and masked data out 
-    wire [`DATA_WIDTH-1:0] DataMasked;       // masked data in
     wire                   ClkEn;
     wire             [1:0] Hwa_LdSt;
-    reg                    RegWrite_d1;
 
     assign ClkEn =1'b1;
 
-    LoadStore LoadStore_inst (
-    .DataMasked              (DataMasked[`DATA_WIDTH-1:0]),
-    .Hwa                     (Hwa_LdSt[1:0]),              // Hardware Assert from Load store Module: [1] = word misalign, [0] = half misalign
-    .MemWriteEn              (EXE_MemWriteEn),
-    .LoadStoreCtrl           (EXE_LoadStoreCtrl[3:0]),     // [3] = valid, [2:0] = command
-    .RawLdDataIn             (RdData[`DATA_WIDTH-1:0]),
-    .WriteDataIn             (EXE_WriteData[`DATA_WIDTH-1:0]),
-    .UnsignedFlag            (EXE_UnsignedFlag),    
-    .Addr                    (EXE_AluResult[1:0])        // Address offset for byte/half-word access
+    LOAD_STORE LoadStore_inst (
+    .DataMasked               (DataMasked[`DATA_WIDTH-1:0]),
+    .Hwa                      (Hwa_LdSt[1:0]),              // Hardware Assert from Load store Module: [1] = word misalign, [0] = half misalign
+    .MemWriteEn               (EXE_MemWriteEn),
+    .LoadStoreCtrl            (EXE_LoadStoreCtrl[3:0]),     // [3] = valid, [2:0] = command
+    .RawLdDataIn              (RdData[`DATA_WIDTH-1:0]),
+    .WriteDataIn              (EXE_WriteData[`DATA_WIDTH-1:0]),
+    .UnsignedFlag             (EXE_UnsignedFlag),    
+    .Addr                     (EXE_AluResult[1:0])        // Address offset for byte/half-word access
     );
 
-   `ifdef SIMULATION_ON
-     integer k;
-     initial begin
-       for (k=0; k<256; k=k+1) begin
-         data_mem[k][`DATA_MASK_BYTE-1:0] <= k*10;
-         data_mem[k][2*`DATA_MASK_BYTE-1:`DATA_MASK_BYTE] <= k*20;
-         data_mem[k][3*`DATA_MASK_BYTE-1:2*`DATA_MASK_BYTE] <= k*30;
-         data_mem[k][4*`DATA_MASK_BYTE-1:3*`DATA_MASK_BYTE] <= k*40;                           
-       end
-     end
-   `endif
-    always @(posedge clk) begin
-      if (EXE_MemWriteEn) begin
-        data_mem[EXE_AluResult[`RAM_ALLIGN_RANGE]][`DATA_WIDTH-1:0] <= DataMasked[`DATA_WIDTH-1:0];  // Aliniere pe 32b
-      end
-    end
-
-    // Memory Read 
-    assign RdData     [`DATA_WIDTH-1:0] = data_mem[EXE_AluResult[`RAM_ALLIGN_RANGE]][`DATA_WIDTH-1:0];
     // Apply Data Mask
     assign ReadDataOut[`DATA_WIDTH-1:0] = DataMasked[`DATA_WIDTH-1:0] & {`DATA_WIDTH{~EXE_MemWriteEn}};
     // Hardware Assert Bus
     assign MEM_Hwa [`HWA_MEM_WIDTH-1:0] = {                       // Add new entries on top
-                                           6'h0,                  // Reserved bits
+                                           5'h0,                  // Reserved bits
                                            Hwa_LdSt[1:0]          // Load & Store Hardware Assert
                                           }
                                         ;
@@ -210,6 +189,4 @@
         MEM_Rdest      [`ADDR_IDX-1:0] <= MEM_Rdest      [`ADDR_IDX-1:0];        
       end
     end
-    // Propagare spre WB
-
 endmodule
