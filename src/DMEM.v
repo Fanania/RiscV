@@ -32,11 +32,12 @@
      DataOut[`DATA_WIDTH-1:0] = data_mem[Addr[`RAM_ALLIGN_RANGE]][`DATA_WIDTH-1:0];
    end
 
- // DEBUG FLORIN BOZO Remove me 
+`ifdef SIMULATION_ON
   genvar i;
   generate
     for (i = 0; i < 32; i = i + 1) begin : expose_memory
       wire [31:0] data_mem_debug = data_mem[i][`DATA_WIDTH-1:0];
     end
   endgenerate
+`endif
  endmodule
