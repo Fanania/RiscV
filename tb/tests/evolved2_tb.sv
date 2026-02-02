@@ -37,7 +37,7 @@ virtual class instr_packet;
       this.instr_type = `R_INSTR;
     endfunction
   
-  constraint fields {
+    constraint fields {
       instr_type == `R_INSTR;                    // keep the class-specific type constant during randomize()
       rd  inside {[0:31]};
       rs1 inside {[0:31]};
@@ -79,7 +79,7 @@ virtual class instr_packet;
     }
   endclass
 
-  class l_instr_packet extends instr_packet;
+ class l_instr_packet extends instr_packet;
    function new();
      this.type_name = "L_TYPE";             // used only in logs
      this.instr_type = `L_INSTR;     
@@ -105,7 +105,7 @@ virtual class instr_packet;
       this.instr_type = `S_INSTR;     
     endfunction
   
-   constraint fields {
+    constraint fields {
       instr_type == `S_INSTR;                 // lock packet flavour for stores
       rs1 == 5'd0;
       rs2 inside {[0:31]};
@@ -215,9 +215,6 @@ module top_tb;
       $finish;
     end
     if      (testname == "general") generate_n_instr_to_hex(general_path,200);    
-/*    else if  (testname == "add")    generate_add(); */
-    else if (testname == "branch") generate_branch();
-    else if (testname == "load")   generate_load();
     else if (testname == "bubble_sort") generate_bubble_sort();
     else begin
       $display("!!! Unknown Test: %s", testname);
@@ -356,10 +353,10 @@ task generate_n_instr_to_hex(string filepath, int n); // Just a repeater
       choice = $urandom_range(0, 12); // 0 to 6
       case (choice)
          0,1,8:  begin r_pkt = new(); pkt = r_pkt; end     
-         5,6,7:  begin i_pkt = new(); pkt = i_pkt; end
+         5,6,7,9:  begin i_pkt = new(); pkt = i_pkt; end
          3,4:        begin l_pkt = new(); pkt = l_pkt; end
          2:        begin s_pkt = new(); pkt = s_pkt; end
-         10,9:       begin b_pkt = new(); pkt = b_pkt; end
+         10:       begin b_pkt = new(); pkt = b_pkt; end
          11:       begin u_pkt = new(); pkt = u_pkt; end
          12:       begin j_pkt = new(); pkt = j_pkt; end
       endcase
@@ -415,9 +412,10 @@ task generate_n_instr_to_hex(string filepath, int n); // Just a repeater
       $fdisplay(f, "%08S", String_instr);      
   //    end
     end
-  $fclose(f);
-  #1 imem_load_done = 1'b1;
-endtask
+
+   $fclose(f);
+   #1 imem_load_done = 1'b1;
+ endtask
 
 task generate_bubble_sort();
   string full_path = {base_path,"test_bubble_sort.hex"};
@@ -426,100 +424,6 @@ task generate_bubble_sort();
   write_bubble_sort_hex(full_path);
   #1 imem_load_done = 1'b1;
 endtask
-
-/*  task generate_add();
-  string full_path = {base_path,"test_add.hex"};
-
-    int f = $fopen(full_path, "w");
-    $display("Generate test_add.hex");
-    imem_load_done = 1'b0;
-
-    $fdisplay(f, "00500293");                   // addi x5, x0, 5
-    $fdisplay(f, "00600313");                   // addi x6, x0, 6
-    $fdisplay(f, "00B304B3");                   // add x9, x6, x11
-    $fdisplay(f, "0000006F");                   // jal x0, 0
-
-    $fclose(f);
-    #1 imem_load_done = 1'b1;
-  endtask */
-
-  task generate_branch();
-    int f = $fopen("test_branch.hex", "w");
-    $display("Generez test_branch.hex");
-    imem_load_done = 1'b0;
-
-    $fdisplay(f, "00500293"); // addi x5, x0, 5
-    $fdisplay(f, "00500293"); // addi x5, x0, 5
-    $fdisplay(f, "0052A063"); // beq x5, x5, +4
-    $fdisplay(f, "0000006F"); // jal x0, 0
-
-    $fclose(f);
-    #1 imem_load_done = 1'b1;
-  endtask
-
-  task generate_load();
-  string full_path = {base_path,"test_load.hex"};  
-    int f = $fopen(full_path, "w");
-    $display("Generete Init every regfile entry using test_load.hex");
-    imem_load_done = 1'b0;
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"04000083");
-    $fdisplay(f,"05041083");
-    $fdisplay(f,"060082C3");
-    $fdisplay(f,"08085103");
-    $fdisplay(f,"0C084143");
-    $fdisplay(f,"10000183");
-    $fdisplay(f,"110411C3");
-    $fdisplay(f,"12008203");
-    $fdisplay(f,"14085243");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"18008283");
-    $fdisplay(f,"1C0002C3");
-    $fdisplay(f,"1D041303");
-    $fdisplay(f,"1E084343");
-    $fdisplay(f,"20085383");
-    $fdisplay(f,"240843C3");
-    $fdisplay(f,"28000403");
-    $fdisplay(f,"29041443");
-    $fdisplay(f,"2A084483");
-    $fdisplay(f,"2C0854C3");
-    $fdisplay(f,"30008503");
-    $fdisplay(f,"34000543");
-    $fdisplay(f,"35041583");
-    $fdisplay(f,"360085C3");
-    $fdisplay(f,"38085603");
-    $fdisplay(f,"3C089643");
-    $fdisplay(f,"40000683");
-    $fdisplay(f,"410416C3");
-    $fdisplay(f,"42008703");
-    $fdisplay(f,"44085743");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"48008783");
-    $fdisplay(f,"4C0007C3");
-    $fdisplay(f,"4396203C");
-    $fdisplay(f,"83060040");
-    $fdisplay(f,"83782048");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"00000000");
-    $fdisplay(f,"C307004C");
-    $fdisplay(f,"00002283"); // lw x5, 0(x0)
-    $fdisplay(f,"0000006F"); // jal x0, 0
-
-    $fclose(f);
-    #1 imem_load_done = 1'b1;
-  endtask
-
-// initial begin
-//   forever begin
-//    #10  $display("%0d este ciclul la care ma aflu. Resetul este %0d",cyc_counter,rst);
-//   end
-// end
  initial begin
    clk = 0;
    forever begin
@@ -527,12 +431,14 @@ endtask
      cyc_counter = cyc_counter+1;
    end
  end
+
+
+
  initial begin
       $fsdbDumpfile("inter.fsdb");
       $fsdbDumpvars(0);
       $dumpfile("dump.vcd");
       $dumpvars(1);
-  
       #`SIM_CYCLES $display ("Test done!\n");
   
       $finish;     
