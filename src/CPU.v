@@ -5,6 +5,7 @@ module CPU (
   output [`ADDR_WIDTH    -1:0] EXE_AluResult,
   output [`DATA_WIDTH    -1:0] DataMasked,
   output                       EXE_MemWriteEn,
+  output                       Flush,
   input                        clk,
   input                        rst,
   input  [`INSTR_WIDTH   -1:0] FetchedInstr,
@@ -16,7 +17,7 @@ module CPU (
   wire                         EXE_PcSrc;
   wire [`PC_WIDTH        -1:0] EXE_PcTgt;
   wire                         CountStall;
-
+ 
   wire [`DATA_WIDTH      -1:0] ID_Rd1;
   wire [`DATA_WIDTH      -1:0] ID_Rd2;
   wire [`PC_WIDTH        -1:0] ID_Pc;
@@ -191,12 +192,14 @@ module CPU (
  .MEM_RegWrite          (MEM_RegWrite        )
 );
 
- // Write back doesn't need an module
- assign WB_WriteEn = MEM_RegWrite;
- assign WB_PcJumpBack[`PC_WIDTH-1:0] = MEM_Pc[`PC_WIDTH-1:0]+ `PC_WIDTH'h4;         // Writing PC + 4 into rd is essential to enable function calls and returns in a clean and efficient way in the RISC-V architecture. It's a standard mechanism found in most modern ISAs (Instruction Set Architectures).
- assign WB_Result  [`DATA_WIDTH-1:0] = (MEM_ResultSrc[1:0] == `WB_ALU) ? MEM_ALUResult[`DATA_WIDTH-1:0]
-                                                                       : (MEM_ResultSrc[1:0] == `WB_RAM) ? MEM_ReadData[`DATA_WIDTH-1:0]
-                                                                                                         : (MEM_ResultSrc[1:0] == `WB_PC) ? WB_PcJumpBack[`PC_WIDTH-1:0]
-                                                                                                                                          : `DATA_WIDTH'h0
-                                                                                                                                          ;
+ WRITEBACK_INSTR WriteBack_Stage_5 (
+ .WB_WriteEn                 (WB_WriteEn           ),
+ .WB_PcJumpBack              (WB_PcJumpBack        ),
+ .WB_Result                  (WB_Result            ),
+ .MEM_RegWrite               (MEM_RegWrite         ),
+ .MEM_ResultSrc              (MEM_ResultSrc        ),
+ .MEM_ALUResult              (MEM_ALUResult        ),
+ .MEM_ReadData               (MEM_ReadData         ),
+ .MEM_Pc                     (MEM_Pc               )
+ );
 endmodule
