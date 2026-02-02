@@ -12,11 +12,13 @@ module RISC_V (
   wire [`DATA_WIDTH  -1:0] DataMasked;
   wire                     EXE_MemWriteEn;
   wire [`DATA_WIDTH  -1:0] EXE_AluResult;
+  wire                     Flush;
   CPU cpu           (
   .ReadAddrInstrMem (ReadAddrInstrMem),
   .EXE_AluResult    (EXE_AluResult),
   .DataMasked       (DataMasked),
-  .EXE_MemWriteEn   (EXE_MemWriteEn),  
+  .EXE_MemWriteEn   (EXE_MemWriteEn), 
+  .Flush            (Flush),
   .clk              (clk),
   .rst              (rst),
   .FetchedInstr     (FetchedInstr),
@@ -25,6 +27,7 @@ module RISC_V (
 
   IMEM InstMem_inst (
   .InstrData        (FetchedInstr),
+  .RdEn             (~Flush),
   .clk              (clk),
   .ReadAddrIn       (ReadAddrInstrMem),                                           // BOZO check if this stage is okay to be used in instruction reading
   .load_done        (imem_load_done)
