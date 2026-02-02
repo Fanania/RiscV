@@ -1,0 +1,69 @@
+                 +----------------------------------------+
+                 |                RISC_V                  |
+                 |                                        |
+  imem_load_done |  +---------+      +-----------------+  |
+  -------------->+  |  IMEM   |----->|      CPU        |  |
+                 |  | (ROM)   |      | (5-stage pipe)  |  |
+                 |  +---------+      +-----------------+  |
+                 |        ^                    |           |
+                 |        |                    v           |
+                 |      ReadAddr            +---------+    |
+                 |                          |  DMEM   |    |
+                 |                          | (RAM)   |    |
+                 |                          +---------+    |
+                 +----------------------------------------+
+
+                 +------------------+
+                 |     FETCH        |
+ clk, rst -----> |                  |
+ EXE_PcSrc ----> |                  |
+ EXE_PcTgt ----> |                  |
+ CountStall ---> |                  | ---> IF_Instr
+ Flush -------> |                  | ---> IF_Pc
+   (optional)    |   BPB predictor |
+                 +------------------+
+                          |
+                          v
+                 +------------------+
+                 |     DECODE       |
+ IF_Instr -----> |                  |
+ IF_Pc --------> |                  | ---> ID_Rd1, ID_Rd2
+ WB_Result ----> |                  | ---> ID_Pc, ID_ImmExt
+ WB_WriteEn ----> |                 | ---> ID_Rs1, ID_Rs2
+ MEM_Rdest ----> |                  | ---> ID_AluControl, AluSrc
+                 +------------------+
+                          |
+                          v
+                 +------------------+
+                 |     EXECUTE      |
+ ID_* ---------> |                  | ---> EXE_AluResult
+ Forwarding ---> |                  | ---> EXE_PcSrc, PcTgt
+                 +------------------+
+                          |
+                          v
+                 +------------------+
+                 |      MEMORY      |
+ EXE_* --------> |                  | ---> MEM_ReadData
+                 |                  | ---> MEM_ResultSrc, RegWrite
+                 +------------------+
+                          |
+                          v
+                 +------------------+
+                 |   WRITE BACK     |
+ MEM_* --------> |                  | ---> WB_Result, WriteEn
+                 +------------------+
+                          |
+                          v
+                 +------------------+
+                 |   HAZARD UNIT    |
+ ID/EXE/MEM ---> |   ForwardA / B   |
+                 |   Stall, Flush   |
+                 +------------------+
+
+                 +------------------+
+                 |   TESTBENCH      |
+                 |  bubble_sort    |
+                 |  program emits   |
+                 |  test_bubble     |
+                 |  _sort.hex       |
+                 +------------------+
