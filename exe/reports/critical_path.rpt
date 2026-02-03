@@ -1,0 +1,58 @@
+/home/fananiae/disertatie_Anania/exe/reports/critical_path.rpt 
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : RISC_V
+Version: Q-2019.12-SP5
+Date   : Thu Jan 29 12:14:29 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: nom_pvt   Library: gtech
+Wire Load Model Mode: top
+
+  Startpoint: cpu/Decode_Stage_2/Regfile_inst/Reg_Cell_reg[0][0]
+              (rising edge-triggered flip-flop clocked by clk')
+  Endpoint: cpu/Decode_Stage_2/ID_Rd1_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk' (rise edge)                                  5.00       5.00
+  clock network delay (ideal)                             0.00       5.00
+  cpu/Decode_Stage_2/Regfile_inst/Reg_Cell_reg[0][0]/CP (GTECH_FD1)
+                                                          0.00 #     5.00 r
+  cpu/Decode_Stage_2/Regfile_inst/Reg_Cell_reg[0][0]/Q (GTECH_FD1)
+                                                          0.00       5.00 r
+  cpu/Decode_Stage_2/Regfile_inst/U2016/Z (GTECH_AOI22)
+                                                          0.00       5.00 f
+  cpu/Decode_Stage_2/Regfile_inst/U2017/Z (GTECH_AND8)
+                                                          0.00       5.00 f
+  cpu/Decode_Stage_2/Regfile_inst/U2018/Z (GTECH_NAND2)
+                                                          0.00       5.00 r
+  cpu/Decode_Stage_2/Regfile_inst/DataOutReg1[0] (REG32x32)
+                                                          0.00       5.00 r
+  cpu/Decode_Stage_2/U4/Z (GTECH_AOI222)                  0.00       5.00 f
+  cpu/Decode_Stage_2/U3/Z (GTECH_NOT)                     0.00       5.00 r
+  cpu/Decode_Stage_2/ID_Rd1_reg[0]/D (GTECH_FD1)          0.00       5.00 r
+  data arrival time                                                  5.00
+
+  clock clk (rise edge)                                  10.00      10.00
+  clock network delay (ideal)                             0.00      10.00
+  cpu/Decode_Stage_2/ID_Rd1_reg[0]/CP (GTECH_FD1)         0.00      10.00 r
+  library setup time                                      0.00      10.00
+  data required time                                                10.00
+  --------------------------------------------------------------------------
+  data required time                                                10.00
+  data arrival time                                                 -5.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.00
+
+
+1
